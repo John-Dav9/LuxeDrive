@@ -1,7 +1,10 @@
-class CreateOffers < ActiveRecord::Migration[7.2]
+class CreateCars < ActiveRecord::Migration[7.2]
   def change
-    create_table :offers do |t|
-      t.string :name
+    create_table :cars do |t|
+      t.string :brand
+      t.string :category
+      t.string :modele 
+      t.date :year
       t.string :adress
       t.integer :price
       t.boolean :status

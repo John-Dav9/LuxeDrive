@@ -18,23 +18,26 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_19_105748) do
     t.date "checkin_date"
     t.date "checkout_date"
     t.boolean "status"
-    t.bigint "offer_id", null: false
+    t.bigint "car_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["offer_id"], name: "index_bookings_on_offer_id"
+    t.index ["car_id"], name: "index_bookings_on_car_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
-  create_table "offers", force: :cascade do |t|
-    t.string "name"
+  create_table "cars", force: :cascade do |t|
+    t.string "brand"
+    t.string "category"
+    t.string "modele"
+    t.date "year"
     t.string "adress"
     t.integer "price"
     t.boolean "status"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_offers_on_user_id"
+    t.index ["user_id"], name: "index_cars_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -51,7 +54,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_19_105748) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "bookings", "offers"
+  add_foreign_key "bookings", "cars"
   add_foreign_key "bookings", "users"
-  add_foreign_key "offers", "users"
+  add_foreign_key "cars", "users"
 end
