@@ -8,6 +8,10 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+Car.destroy_all
+User.destroy_all
+User.create(first_name: "John", last_name: "David", email: "john@mail.com", password: "password")
+
 cars = [
   {brand: "Lamborghini", category: "SUV",   model: "Urus awd", year: 2021, adress: "Paris", price: 1200, status: "available", user: User.first },
   { brand: "BMW", category: "SUV", model: "X5 xDrive40i", year: 2022, adress: "Nice", price: 7000, status: "available", user: User.last },
