@@ -1,7 +1,7 @@
-class CarController < ApplicationController
+class CarsController < ApplicationController
   before_action :authenticate_user! # S'assurer que l'utilisateur est connecté
-  before_action :set_car, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_owner, only: [:edit, :update, :destroy]
+  before_action :set_car, only: %i[show edit update destroy]
+  before_action :authorize_owner, only: %i[edit update destroy]
 
   # GET /cars
   def index
@@ -60,13 +60,13 @@ class CarController < ApplicationController
 
   # Vérifie si l'utilisateur connecté est le propriétaire de la voiture
   def authorize_owner
-    unless @car.user == current_user
-      redirect_to cars_path, alert: "Vous n'avez pas la permission de modifier ou supprimer cette voiture."
-    end
+    return if @car.user == current_user
+
+    redirect_to cars_path, alert: "Vous n'avez pas la permission de modifier ou supprimer cette voiture."
   end
 
   # Strong parameters pour la création/mise à jour des voitures
   def car_params
-    params.require(:car).permit(:name, :brand, :model, :year, :location, :price_per_day, :options, :status)
+    params.require(:car).permit(:category, :brand, :model, :year, :adress, :price, :options, :status, photos: [])
   end
 end
