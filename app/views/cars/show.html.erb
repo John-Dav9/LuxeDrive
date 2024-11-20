@@ -1,0 +1,17 @@
+<h1><%= @car.brand %> - <%= @car.model %></h1>
+
+<p><strong>Année :</strong> <%= @car.year %></p>
+<p><strong>Prix :</strong> <%= @car.price %> €/jour</p>
+<p><strong>Localisation :</strong> <%= @car.adress %></p>
+<p><strong>Options :</strong> <%= @car.options.presence || "Non spécifiées" %></p>
+
+<h2>Photos :</h2>
+<% @car.photos.each do |photo| %>
+  <%= image_tag photo, style: "width: 300px; height: auto;" %>
+<% end %>
+<p>Aucune photo disponible</p> unless @car.photos.attached?
+
+<% if @car.user == current_user %>
+  <%= link_to "Modifier cette voiture", edit_car_path(@car), class: "btn btn-warning" %>
+  <%= link_to "Supprimer cette voiture", car_path(@car), method: :delete, data: { confirm: "Êtes-vous sûr ?" }, class: "btn btn-danger" %>
+<% end %>
