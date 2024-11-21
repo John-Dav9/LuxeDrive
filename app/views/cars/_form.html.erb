@@ -1,6 +1,6 @@
-<%= form_with model: @car, local: true do |f| %>
+<%= simple_form_with model: @car, local: true do |f| %>
   <div>
-    <%= f.label :category, "catégories" %>
+    <%= f.label :category, "Marque" %>
     <%= f.text_field :category %>
   </div>
   <div>
@@ -23,10 +23,7 @@
     <%= f.label :price, "Prix par jour" %>
     <%= f.number_field :price %>
   </div>
-  <div>
-    <%= f.label :options, "Options" %>
-    <%= f.text_area :options %>
-  </div>
+
   <div>
     <%= f.label :photos, "Photos" %>
     <%= f.file_field :photos, multiple: true %>

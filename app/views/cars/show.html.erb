@@ -3,7 +3,7 @@
 <p><strong>Année :</strong> <%= @car.year %></p>
 <p><strong>Prix :</strong> <%= @car.price %> €/jour</p>
 <p><strong>Localisation :</strong> <%= @car.adress %></p>
-<p><strong>Options :</strong> <%= @car.options.presence || "Non spécifiées" %></p>
+<%# <p><strong>Options :</strong> <%= @car.options.presence || "Non spécifiées" %></p> %>
 
 <h2>Photos :</h2>
 <% @car.photos.each do |photo| %>
