@@ -1,0 +1,18 @@
+<div class="container">
+  <h1>yours bookings</h1>
+    
+      <% @bookings.each do |booking| %>
+        <div class="card-product">
+          <%= image_tag booking.car.photo_url %>
+          <div class="card-product-infos">
+            <h2><strong><%= booking.car.brand %><%= booking.car.model %></strong></h2>
+            <p><%= booking.checkin_date %></p>
+            <p><%= booking.checkout_date %></p>
+            <p><%= booking.car.price %></p>
+            <p><%= booking.status %></p>
+          </div>
+        </div> 
+      <% end %>
+    
+
+</div>

@@ -1,11 +1,7 @@
 class BookingsController < ApplicationController
   before_action :authenticate_user! # S'assurer que l'utilisateur est connecté
-  before_action :set_booking, only: [:show, :destroy]
-  before_action :set_car, only: [:new, :create]
-
-  def index
-    @bookings = current_user.bookings
-  end
+  before_action :set_booking, only: %i[show destroy]
+  before_action :set_car, only: %i[new create]
 
   def new
     @booking = Booking.new
@@ -14,9 +10,10 @@ class BookingsController < ApplicationController
   def create
     @booking = current_user.bookings.build(booking_params)
     @booking.car = @car
+    @booking.status = "Pending"
 
     if @booking.save
-      redirect_to booking_path(@booking), notice: 'Réservation créée avec succès.'
+      redirect_to dashboard_path, notice: 'Réservation créée avec succès.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,7 +23,7 @@ class BookingsController < ApplicationController
   end
 
   def destroy
-    if @booking.user == current_user 
+    if @booking.user == current_user
       @booking.destroy
       redirect_to bookings_path, notice: 'Réservation annulée avec succès.'
     else
@@ -45,6 +42,6 @@ class BookingsController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(:start_date, :end_date)
+    params.require(:booking).permit(:checkin_date, :checkout_date)
   end
 end

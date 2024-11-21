@@ -14,7 +14,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   #   devise_for :users
 
-  resources :cars # Inclut toutes les actions RESTful (index, show, new, create, edit, update, destroy)
+  resources :cars do # Inclut toutes les actions RESTful (index, show, new, create, edit, update, destroy)
+    resources :bookings, only: [:new, :create]
+      
+   # root "posts#index"
+  end
 
-  # root "posts#index"
+  get 'dashboard', to: 'pages#dashboard' 
+
 end

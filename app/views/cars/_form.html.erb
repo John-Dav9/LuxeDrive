@@ -1,34 +1,12 @@
-<%= simple_form_with model: @car, local: true do |f| %>
-  <div>
-    <%= f.label :category, "Marque" %>
-    <%= f.text_field :category %>
-  </div>
-  <div>
-    <%= f.label :brand, "Marque" %>
-    <%= f.text_field :brand %>
-  </div>
-  <div>
-    <%= f.label :model, "Modèle" %>
-    <%= f.text_field :model %>
-  </div>
-  <div>
-    <%= f.label :year, "Année" %>
-    <%= f.number_field :year %>
-  </div>
-  <div>
-    <%= f.label :adress, "Localisation" %>
-    <%= f.text_field :adress %>
-  </div>
-  <div>
-    <%= f.label :price, "Prix par jour" %>
-    <%= f.number_field :price %>
-  </div>
-
-  <div>
-    <%= f.label :photos, "Photos" %>
-    <%= f.file_field :photos, multiple: true %>
-  </div>
-  <div>
-    <%= f.submit %>
-  </div>
+<div class="container">
+  <%= simple_form_for(@car) do |f| %>
+  <%= f.input :brand %>
+  <%= f.input :category %>
+  <%= f.input :model %>
+  <%= f.input :year %>
+  <%= f.input :address %>
+  <%= f.input :price %>
+  <%= f.input :photo_url %>
+  <%= f.submit %>
 <% end %>
+</div>
