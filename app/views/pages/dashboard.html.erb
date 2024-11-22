@@ -1,7 +1,14 @@
 <div class="container w-50">
+  <div class="fix-height" style="min-height:75vh">
 
     <% if @bookings.any? %>
       <% @bookings.each do |booking| %>
+
+      <% if booking.user == current_user %>
+
+
+
+
         <div class="card-product">
           <%= image_tag booking.car.photo_url %>
           <div class="card-product-infos">
@@ -13,10 +20,13 @@
           </div>
         </div> 
       <% end %>
+      
+      <% end %>
+      
    <% else %>
    <p>You have no bookings</p>
    <% end %>
 
 
-
+</div>
 </div>
