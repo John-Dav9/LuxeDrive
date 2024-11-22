@@ -3,6 +3,9 @@ class BookingsController < ApplicationController
   before_action :set_booking, only: %i[show destroy]
   before_action :set_car, only: %i[new create]
 
+  def index
+    @bookings = current_user.bookings
+  end
   def new
     @booking = Booking.new
   end

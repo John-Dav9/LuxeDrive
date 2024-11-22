@@ -1,16 +1,33 @@
 <div class="container">
-  <h1><%= @car.brand %> - <%= @car.model %></h1>
+  
 
-  <p><strong>Année :</strong> <%= @car.year %></p>
-  <p><strong>Prix :</strong> <%= @car.price %> €/jour</p>
-  <p><strong>Localisation :</strong> <%= @car.address %></p>
-  <h2>Photos :</h2>
-  <%= image_tag @car.photo_url, class:"picture_details" %>
+   <div class="vide">
 
-  <% if @car.user == current_user %>
-    <%= link_to "Modifier cette voiture", edit_car_path(@car), class: "btn btn-warning" %>
-    <%= link_to "Supprimer cette voiture", car_path(@car), method: :delete, data: { confirm: "Êtes-vous sûr ?" }, class: "btn btn-danger" %>
-  <% end %>
 
-  <%= link_to "book", new_car_booking_path(@car), class: "btn btn-primary" %>
+
+            <h1><%= @car.brand %> - <%= @car.model %></h1>
+        <p><strong>Année :</strong> <%= @car.year %></p>
+        <p><strong>Prix :</strong> <%= @car.price %> €/jour</p>
+        <p><strong>Localisation :</strong> <%= @car.address %></p>
+        <p><strong>Proprietaire :</strong> <%= @car.user.first_name %> <%= @car.user.last_name %></p>
+        <h2>Photos :</h2>
+    <div class="actions-in-show">
+        <%= image_tag @car.photo_url, class:"picture_details" %>
+      <ul>
+          <% if @car.user == current_user %>
+          <p><%= link_to "Edit this car", edit_car_path(@car), class: "btn btn-warning" %></p>
+          <p><%= link_to "Delete tis car", car_path(@car), method: :delete, data: {confirm: "Êtes-vous sûr ?" }, class: "btn btn-danger" %></p>
+        <% end %>
+        <p><%= link_to "book this car", new_car_booking_path(@car), class: "btn btn-primary" %></p>
+      </ul>
+    </div>
+
+
+
+
+
+
+
+
+   </div>
 </div>

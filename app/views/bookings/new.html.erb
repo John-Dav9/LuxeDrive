@@ -1,12 +1,13 @@
-<div class="container">
-  <h3>Book your car here</h3>
-
-  <%= simple_form_for([@car, @booking]) do |f| %>
+<div class="container" style="min-height:75vh">
+ 
+  <div class="form-new">
+    <%= simple_form_for([@car, @booking]) do |f| %>
     <%= f.input :checkin_date %>
     <%= f.input :checkout_date %>
-  
     <%= f.submit class: "btn btn-primary" %>
   <% end %>
+  </div>
+
 </div>
 
         

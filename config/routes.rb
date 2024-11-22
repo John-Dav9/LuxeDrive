@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   #   devise_for :users
 
   resources :cars do # Inclut toutes les actions RESTful (index, show, new, create, edit, update, destroy)
-    resources :bookings, only: [:new, :create]
+    resources :bookings, only: [:index, :new, :create]
       
    # root "posts#index"
   end

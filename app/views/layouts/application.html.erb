@@ -13,7 +13,7 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
@@ -21,37 +21,43 @@
 
   <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
     <div class="container-fluid">
-      <%= link_to "#", class: "navbar-brand" do %>
-        <%= image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png" %>
-      <% end %>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+
+            <%= link_to root_path, class: "navbar-brand", style:"display: contents" do %>
+              <%= image_tag "logo.png" %>
+            <% end %>
+
+
+
+              <%= simple_form_for :search, url: root_path, method: :get do |f| %>
+          <div class="search-form-control form-group">
+            <input class="form-control string required" type="text" name="search[query]" id="search_query" />
+            <button name="button" type="submit" class="btn btn-flat">
+              <i class="fas fa-search"></i> Search
+            </button>
+          </div>
+              <% end %>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto">
-          <%# if user_signed_in? %>
-            <li class="nav-item active">
-              <%= link_to "Home", "#", class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Messages", "#", class: "nav-link" %>
-            </li>
+          <% if user_signed_in? %>
+           
+
             <li class="nav-item dropdown">
-              <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+            <%= image_tag "T02NE0241-U07Q4PW5W2K-b9cf4c0c8442-512.jpg", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <%= link_to "Action", "#", class: "dropdown-item" %>
-                <%= link_to "Another action", "#", class: "dropdown-item" %>
-                <%= link_to "Log out", "#", class: "dropdown-item", data: {turbo_method: :delete} %>
-                <%# link_to "Log out", destroy_user_session_path, class: "dropdown-item", data: {turbo_method: :delete} %>
+                <%#= link_to "Action", "#", class: "dropdown-item" %>
+                <%#= link_to "Another action", "#", class: "dropdown-item" %>
+                <%#= link_to "Log out", "#", class: "dropdown-item", data: {turbo_method: :delete} %>
+                <%= link_to "My Bookings", "/dashboard", class: "nav-link" %>
+                <%= link_to "Log out", destroy_user_session_path, class: "dropdown-item", data: {turbo_method: :delete} %>
               </div>
             </li>
-          <%# else %>
-            <!--li class="nav-item"-->
-              <%#= link_to "Login", new_user_session_path, class: "nav-link" %>
-            <!--/li-->
-          <%# end %>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -74,7 +80,7 @@
 
 
 
-    <div class="footer">
+    <div class="footer mt-5">
     <div class="footer-links">
       <a href="#"><i class="fab fa-github"></i></a>
       <a href="#"><i class="fab fa-instagram"></i></a>
@@ -86,5 +92,7 @@
       This footer is made with <i class="fas fa-heart"></i> at Le Wagon
     </div>
   </div>
+
+
   </body>
 </html>

@@ -1,20 +1,6 @@
 <div class="container">
 
- <%= simple_form_for :search, url: root_path, method: :get do |f| %>
-  <div class="search-form-control form-group">
-    <input class="form-control string required" type="text" name="search[query]" id="search_query" />
-    <button name="button" type="submit" class="btn btn-flat">
-      <i class="fas fa-search"></i> Search
-    </button>
-  </div>
-<% end %>
-
-
-  <h1>Liste des voitures disponibles</h1>
- 
-    <%= link_to "Ajouter une voiture", new_car_path, class: "btn btn-primary" %>
   <div class="cards">
-    
       <% @cars.each do |car| %>
         <div class="card-car">
           <%= image_tag car.photo_url %>
@@ -26,10 +12,10 @@
             <h2 class="card-car-pricing"><p>Prix : <%= car.price %> €/jour</p></h2>
           </div>
         </div>
-
       <% end %>
-   
   </div>
+
+      <%= link_to "Ajouter une voiture", new_car_path, class: "btn btn-primary" %>
 
   
 </div>

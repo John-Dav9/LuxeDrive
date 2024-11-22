@@ -1,18 +1,22 @@
-<div class="container">
-  <h1>yours bookings</h1>
-    
+<div class="container w-50">
+
+    <% if @bookings.any? %>
       <% @bookings.each do |booking| %>
         <div class="card-product">
           <%= image_tag booking.car.photo_url %>
           <div class="card-product-infos">
             <h2><strong><%= booking.car.brand %><%= booking.car.model %></strong></h2>
-            <p><%= booking.checkin_date %></p>
-            <p><%= booking.checkout_date %></p>
+            <p><strong><%= booking.user.first_name %> <%= booking.user.last_name %></strong></p>
+            <p><strong>From </strong><%= booking.checkin_date %> <strong>To</strong> <%= booking.checkout_date %></p>
             <p><%= booking.car.price %></p>
             <p><%= booking.status %></p>
           </div>
         </div> 
       <% end %>
-    
+   <% else %>
+   <p>You have no bookings</p>
+   <% end %>
+
+
 
 </div>

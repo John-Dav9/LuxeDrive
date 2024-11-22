@@ -36,8 +36,12 @@ class CarsController < ApplicationController
   end
 
   def destroy
-    @car.destroy
-    redirect_to cars_path, notice: 'Voiture supprimée avec succès.'
+    @car = set_car
+    if @car.destroy
+      redirect_to root_path, notice: 'Voiture supprimée avec succès.'
+    else
+      redirect_to car_path(@car), alert: "La voiture n'a pas pu être supprimée."
+    end
   end
 
   private

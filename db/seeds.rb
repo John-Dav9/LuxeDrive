@@ -7,10 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-
+Booking.destroy_all
 Car.destroy_all
 User.destroy_all
 User.create(first_name: "John", last_name: "David", email: "john@mail.com", password: "password")
+User.create(first_name: "clara", last_name: "Barbé", email: "clarabb@mail.com", password: "password")
 
 # cars = [
   Car.create({brand: "Bentley", category: "Hypercar",  model: "Continental GTC awd", year: 2023, address: "Marnes-La-Valley", photo_url: "https://img.jamesedition.com/listing_images/2024/11/20/08/28/54/03d36370-49e3-4204-b12b-13972e31774d/je/1900xxs.jpg", price: 660, status: "available", user: User.first })
