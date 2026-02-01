@@ -9,8 +9,6 @@ services:
     name: luxedrive
     runtime: docker
     plan: free
-    buildCommand: "./bin/rails assets:precompile"
-    startCommand: "./bin/rails server -b 0.0.0.0"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
