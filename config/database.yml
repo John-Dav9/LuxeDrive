@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: luxe_drive_production
-  username: luxe_drive
-  password: <%= ENV["LUXE_DRIVE_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
