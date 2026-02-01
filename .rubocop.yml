@@ -40,3 +40,6 @@ Style/EmptyMethod:
   Enabled: false
 Bundler/OrderedGems:
   Enabled: false
+
+Rails/I18nLocaleTexts:
+  Enabled: false

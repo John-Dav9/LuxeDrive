@@ -1,0 +1,337 @@
+// ============================================
+// FOOTER - Professional Modern Design
+// ============================================
+
+.footer {
+  background: #0f172a !important;
+  color: #cbd5e1;
+  margin-top: 8rem;
+  padding: 6rem 0 4rem !important;
+  border-top: 2px solid rgba(37, 99, 235, 0.3) !important;
+  width: 100% !important;
+  
+  // Ensure footer doesn't shrink on flex containers
+  flex-shrink: 0;
+  
+  // Override any inherited styles
+  * {
+    color: inherit;
+  }
+}
+
+.footer-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+// ============================================
+// FOOTER GRID - Main Layout
+// ============================================
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  row-gap: 1.5rem;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+// ============================================
+// FOOTER COLUMN
+// ============================================
+
+.footer-col {
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff !important;
+    margin: 0 0 2rem 0;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+
+    @media (max-width: 768px) {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin-bottom: 1rem;
+
+    a {
+      color: #cbd5e1 !important;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+      position: relative;
+      line-height: 1.5;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #2563eb, #60a5fa);
+        transition: width 0.3s ease;
+      }
+
+      &:hover {
+        color: #ffffff !important;
+
+        &::after {
+          width: 100%;
+        }
+      }
+
+      &.disabled {
+        color: #64748b !important;
+        opacity: 0.5;
+        cursor: not-allowed;
+
+        &:hover {
+          color: #64748b !important;
+
+          &::after {
+            width: 0;
+          }
+        }
+      }
+
+      @media (max-width: 768px) {
+        font-size: 0.95rem;
+      }
+    }
+  }
+}
+
+// ============================================
+// FOOTER SOCIALS
+// ============================================
+
+.footer-socials {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    background: rgba(37, 99, 235, 0.2) !important;
+    border: 1.5px solid rgba(37, 99, 235, 0.5) !important;
+    border-radius: 50%;
+    color: #60a5fa !important;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    i {
+      font-size: 1.2rem;
+    }
+
+    &:hover {
+      background: #2563eb !important;
+      color: white !important;
+      border-color: #2563eb !important;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      width: 44px;
+      height: 44px;
+
+      i {
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+
+// ============================================
+// FOOTER BOTTOM - Divider & Copyright
+// ============================================
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 3rem;
+  text-align: center;
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #94a3b8 !important;
+    font-weight: 500;
+    line-height: 1.6;
+
+    @media (max-width: 768px) {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// ============================================
+// RESPONSIVE BEHAVIOR
+// ============================================
+
+@media (max-width: 1200px) {
+  .footer {
+    padding: 3rem 0 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .footer-col h3 {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 4rem 0 3rem;
+    margin-top: 5rem;
+  }
+
+  .footer-wrapper {
+    padding: 0 2rem;
+  }
+
+  .footer-grid {
+    margin-bottom: 3rem;
+  }
+
+  .footer-col {
+    h3 {
+      margin-bottom: 1.4rem;
+    }
+
+    li {
+      margin-bottom: 0.8rem;
+    }
+
+    a {
+      font-size: 0.92rem;
+    }
+  }
+
+  .footer-bottom {
+    padding-top: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 3rem 0 2.5rem;
+    margin-top: 3.5rem;
+  }
+
+  .footer-wrapper {
+    padding: 0 1.5rem;
+  }
+
+  .footer-grid {
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .footer-col {
+    h3 {
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    li {
+      margin-bottom: 0.7rem;
+    }
+
+    a {
+      font-size: 0.88rem;
+    }
+  }
+
+  .footer-socials {
+    gap: 1rem;
+    margin-top: 1.5rem;
+
+    a {
+      width: 42px;
+      height: 42px;
+
+      i {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .footer-bottom {
+    padding-top: 2rem;
+
+    p {
+      font-size: 0.85rem;
+    }
+  }
+}
+
+// ============================================
+// PRINT STYLES
+// ============================================
+
+@media print {
+  .footer {
+    display: none !important;
+  }
+}
+
+// ============================================
+// ACCESSIBILITY
+// ============================================
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-col a,
+  .footer-socials a {
+    transition: none !important;
+
+    &::after {
+      transition: none !important;
+    }
+  }
+}
+
+@media (prefers-contrast: more) {
+  .footer {
+    border-top: 2px solid #2563eb;
+  }
+
+  .footer-col a {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .footer-socials a {
+    border-width: 2px;
+  }
+}

@@ -1,0 +1,18 @@
+<div class="booking-container">
+  <div class="booking-header">
+    <%= link_to "← Retour", dashboard_path, class: "back-link" %>
+    <h1 class="booking-title">Paiement échoué</h1>
+  </div>
+
+  <div class="booking-content">
+    <div class="booking-form-card payment-card">
+      <h3 class="form-title">Nous n'avons pas pu traiter le paiement</h3>
+      <p>Vérifiez vos informations de paiement ou réessayez.</p>
+
+      <div class="form-actions">
+        <%= link_to "Réessayer", payment_booking_path(@booking), class: "btn btn-primary btn-lg btn-submit" %>
+        <%= link_to "Annuler", dashboard_path, class: "btn btn-secondary btn-lg" %>
+      </div>
+    </div>
+  </div>
+</div>

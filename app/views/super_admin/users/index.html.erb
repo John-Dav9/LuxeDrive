@@ -1,0 +1,148 @@
+<div class="container-fluid">
+  <div class="admin-page-header">
+    <p class="header-eyebrow">Super Admin</p>
+    <h1 class="header-title">
+      <span class="header-icon">👥</span>
+      Gestion des utilisateurs
+    </h1>
+    <p class="header-subtitle">Gerer tous les utilisateurs de la plateforme.</p>
+  </div>
+
+  <!-- Filtres et recherche -->
+  <div class="card border-0 shadow-sm mb-4 admin-filter-card">
+    <div class="card-body">
+      <%= form_with url: super_admin_users_path, method: :get, class: "row g-3" do |f| %>
+        <div class="col-md-5">
+          <%= f.text_field :query, 
+              value: params[:query], 
+              placeholder: "Rechercher par nom ou email...", 
+              class: "form-control" %>
+        </div>
+        <div class="col-md-3">
+          <%= f.select :role, 
+              options_for_select([
+                ["Tous les rôles", ""],
+                ["Super Admins", "super_admin"],
+                ["Propriétaires", "admin_client"],
+                ["Visiteurs", "visitor"]
+              ], params[:role]), 
+              {}, 
+              class: "form-select" %>
+        </div>
+        <div class="col-md-2">
+          <%= f.submit "Filtrer", class: "btn btn-primary w-100" %>
+        </div>
+        <div class="col-md-2">
+          <%= link_to "Réinitialiser", super_admin_users_path, class: "btn btn-outline-secondary w-100" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Statistiques rapides -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card border-0 bg-danger text-white">
+        <div class="card-body">
+          <h6>Super Admins</h6>
+          <h3><%= User.super_admin.count %></h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 bg-success text-white">
+        <div class="card-body">
+          <h6>Propriétaires</h6>
+          <h3><%= User.admin_client.count %></h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 bg-info text-white">
+        <div class="card-body">
+          <h6>Visiteurs</h6>
+          <h3><%= User.visitor.count %></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table des utilisateurs -->
+  <div class="card border-0 shadow-sm admin-table-card">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 admin-table">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Nom complet</th>
+              <th>Email</th>
+              <th>Rôle</th>
+              <th>Voitures</th>
+              <th>Réservations</th>
+              <th>Inscrit le</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><code><%= user.id %></code></td>
+                <td>
+                  <strong><%= user.full_name %></strong>
+                  <% if user == current_user %>
+                    <span class="badge bg-primary ms-1">Vous</span>
+                  <% end %>
+                </td>
+                <td><%= user.email %></td>
+                <td>
+                  <% if user.super_admin? %>
+                    <span class="badge bg-danger">🔧 Super Admin</span>
+                  <% elsif user.admin_client? %>
+                    <span class="badge bg-success">🚗 Propriétaire</span>
+                  <% else %>
+                    <span class="badge bg-info">👤 Visiteur</span>
+                  <% end %>
+                </td>
+                <td>
+                  <span class="badge bg-secondary"><%= user.cars.count %></span>
+                </td>
+                <td>
+                  <span class="badge bg-secondary"><%= user.bookings.count %></span>
+                </td>
+                <td><%= user.created_at.strftime("%d/%m/%Y") %></td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <%= link_to "Voir", super_admin_user_path(user), class: "btn btn-outline-primary" %>
+                    <%= link_to "Modifier", edit_super_admin_user_path(user), class: "btn btn-outline-warning" %>
+                    <% unless user == current_user %>
+                      <%= link_to "Supprimer", 
+                          super_admin_user_path(user), 
+                          data: { turbo_method: :delete, turbo_confirm: "Êtes-vous sûr de vouloir supprimer #{user.full_name} ?" }, 
+                          class: "btn btn-outline-danger" %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <% if @users.any? %>
+      <div class="card-footer bg-white">
+        <div class="d-flex justify-content-center">
+          <%= paginate @users %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @users.empty? %>
+    <div class="alert alert-info mt-4">
+      <i class="fas fa-info-circle me-2"></i>
+      Aucun utilisateur trouvé avec ces critères.
+    </div>
+  <% end %>
+</div>

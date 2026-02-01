@@ -1,33 +1,96 @@
-<div class="container">
-  
+<div class="car-detail-container">
+  <!-- Back link -->
+  <div class="car-detail-header">
+    <%= link_to "← Retour aux voitures", cars_path, class: "back-link" %>
+  </div>
 
-   <div class="vide">
-
-
-
-            <h1><%= @car.brand %> - <%= @car.model %></h1>
-        <p><strong>Année :</strong> <%= @car.year %></p>
-        <p><strong>Prix :</strong> <%= @car.price %> €/jour</p>
-        <p><strong>Localisation :</strong> <%= @car.address %></p>
-        <p><strong>Proprietaire :</strong> <%= @car.user.first_name %> <%= @car.user.last_name %></p>
-        <h2>Photos :</h2>
-    <div class="actions-in-show">
-        <%= image_tag @car.photo_url, class:"picture_details" %>
-      <ul>
-          <% if @car.user == current_user %>
-          <p><%= link_to "Edit this car", edit_car_path(@car), class: "btn btn-warning" %></p>
-          <p><%= link_to "Delete tis car", car_path(@car), method: :delete, data: {confirm: "Êtes-vous sûr ?" }, class: "btn btn-danger" %></p>
-        <% end %>
-        <p><%= link_to "book this car", new_car_booking_path(@car), class: "btn btn-primary" %></p>
-      </ul>
+  <!-- Main detail card -->
+  <div class="car-detail-card">
+    <!-- Image section -->
+    <div class="car-detail-image">
+      <% if @car.photos.attached? %>
+        <%= image_tag @car.photos.first, alt: "#{@car.brand} #{@car.model}", class: "detail-image" %>
+      <% else %>
+        <div class="placeholder-large">
+          <i class="fas fa-car"></i>
+        </div>
+      <% end %>
     </div>
 
+    <!-- Description Section -->
+    <% if @car.description.present? %>
+      <div class="car-description">
+        <h3 class="description-title">À propos de cette voiture</h3>
+        <p class="description-text"><%= simple_format(@car.description) %></p>
+      </div>
+    <% end %>
 
+    <!-- Info section -->
+    <div class="car-detail-info">
+      <!-- Title and price -->
+      <div class="detail-title-section">
+        <h1 class="car-detail-title"><%= @car.brand %> <span><%= @car.model %></span></h1>
+        <div class="price-badge">
+          <%= number_with_precision(@car.price, precision: 0) %> €<span>/jour</span>
+        </div>
+      </div>
 
+      <!-- Key details grid -->
+      <div class="detail-specs-grid">
+        <div class="spec-item">
+          <div class="spec-label">Année</div>
+          <div class="spec-value"><%= @car.year %></div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Catégorie</div>
+          <div class="spec-value"><span class="category-badge"><%= @car.category %></span></div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Statut</div>
+          <div class="spec-value">
+            <% if @car.status %>
+              <span class="status-badge available">Disponible</span>
+            <% else %>
+              <span class="status-badge unavailable">Indisponible</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
 
+      <!-- Location -->
+      <div class="detail-location">
+        <i class="fas fa-map-marker-alt"></i>
+        <span><%= @car.address %></span>
+      </div>
 
+      <!-- Owner info -->
+      <div class="detail-owner">
+        <div class="owner-label">Propriétaire</div>
+        <div class="owner-name">
+          <i class="fas fa-user-circle"></i>
+          <%= @car.user.first_name %> <%= @car.user.last_name %>
+        </div>
+      </div>
 
-
-
-   </div>
+      <!-- Action buttons -->
+      <div class="detail-actions">
+        <% if @car.user == current_user %>
+          <div class="owner-actions">
+            <%= link_to "Modifier", edit_car_path(@car), class: "btn btn-secondary btn-sm" %>
+            <%= link_to "Supprimer", car_path(@car), method: :delete, data: { confirm: "Êtes-vous sûr ?" }, class: "btn btn-danger btn-sm" %>
+          </div>
+        <% end %>
+        
+        <% if @car.status && current_user.present? %>
+          <%= link_to "Réserver cette voiture", new_car_booking_path(@car), class: "btn btn-primary btn-lg" %>
+        <% elsif !@car.status %>
+          <button class="btn btn-disabled btn-lg" disabled>
+            <i class="fas fa-ban"></i> Indisponible à la réservation
+          </button>
+        <% else %>
+          <%= link_to "Se connecter pour réserver", new_user_session_path, class: "btn btn-primary btn-lg" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

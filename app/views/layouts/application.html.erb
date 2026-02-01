@@ -17,7 +17,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="d-flex flex-column" style="min-height: 100vh;">
 
   <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
     <div class="container-fluid">
@@ -29,33 +29,77 @@
 
 
 
-              <%= simple_form_for :search, url: root_path, method: :get do |f| %>
-          <div class="search-form-control form-group">
-            <input class="form-control string required" type="text" name="search[query]" id="search_query" />
-            <button name="button" type="submit" class="btn btn-flat">
-              <i class="fas fa-search"></i> Search
-            </button>
-          </div>
-              <% end %>
+              
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto">
           <% if user_signed_in? %>
-           
+            <!-- Menu spécifique selon le rôle -->
+            <% if current_user.super_admin? %>
+              <li class="nav-item">
+                <%= link_to "🔧 Super Admin", super_admin_root_path, class: "nav-link fw-bold text-danger" %>
+              </li>
+            <% end %>
+            
+            <li class="nav-item">
+              <%= link_to "Accueil", root_path, class: "nav-link" %>
+            </li>
+            
+            <% if current_user.admin? %>
+              <li class="nav-item">
+                <%= link_to "📋 Mes Voitures", owner_cars_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "📊 Tableau de bord", owner_root_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "📊 Mes Réservations", owner_bookings_path, class: "nav-link" %>
+              </li>
+            <% end %>
 
             <li class="nav-item dropdown">
-            <%= image_tag "T02NE0241-U07Q4PW5W2K-b9cf4c0c8442-512.jpg", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+              <%= image_tag "T02NE0241-U07Q4PW5W2K-b9cf4c0c8442-512.jpg", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <%#= link_to "Action", "#", class: "dropdown-item" %>
-                <%#= link_to "Another action", "#", class: "dropdown-item" %>
-                <%#= link_to "Log out", "#", class: "dropdown-item", data: {turbo_method: :delete} %>
-                <%= link_to "My Bookings", "/dashboard", class: "nav-link" %>
-                <%= link_to "Log out", destroy_user_session_path, class: "dropdown-item", data: {turbo_method: :delete} %>
+                <div class="dropdown-header">
+                  <strong><%= current_user.full_name %></strong><br>
+                  <small class="text-muted"><%= current_user.email %></small>
+                </div>
+                <div class="dropdown-divider"></div>
+                
+                <% if current_user.super_admin? %>
+                  <%= link_to "🔧 Panneau Super Admin", super_admin_root_path, class: "dropdown-item" %>
+                  <div class="dropdown-divider"></div>
+                <% end %>
+                
+                <% if current_user.admin? %>
+                  <%= link_to "➕ Ajouter une voiture", new_car_path, class: "dropdown-item" %>
+                  <%= link_to "📊 Tableau de bord propriétaire", owner_root_path, class: "dropdown-item" %>
+                  <%= link_to "📊 Réservations reçues", owner_bookings_path, class: "dropdown-item" %>
+                  <div class="dropdown-divider"></div>
+                <% end %>
+                
+                <%= link_to "🔔 Notifications", notifications_path, class: "dropdown-item" %>
+                <div class="dropdown-divider"></div>
+                <%= link_to "📅 Mes réservations", dashboard_path, class: "dropdown-item" %>
+                <div class="dropdown-divider"></div>
+                <%= link_to "Déconnexion", destroy_user_session_path, class: "dropdown-item", data: {turbo_method: :delete} %>
               </div>
+            </li>
+            <li class="nav-item ms-2">
+              <%= link_to notifications_path, class: "nav-link notif-bell", id: "notifBell" do %>
+                <i class="fas fa-bell"></i>
+                <span class="notif-badge d-none" id="notifBadge">0</span>
+              <% end %>
             </li>
           <% else %>
             <li class="nav-item">
-              <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+              <%= link_to "Accueil", root_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Connexion", new_user_session_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Inscription", new_user_registration_path, class: "nav-link btn btn-primary text-white ms-2" %>
             </li>
           <% end %>
         </ul>
@@ -63,36 +107,107 @@
     </div>
   </div>
 
-
-
-
-
-
-
-
+  <main>
     <%= yield %>
+  </main>
 
-
-
-
-
-
-
-
-
-    <div class="footer mt-5">
-    <div class="footer-links">
-      <a href="#"><i class="fab fa-github"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-facebook"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-linkedin"></i></a>
-    </div>
-    <div class="footer-copyright">
-      This footer is made with <i class="fas fa-heart"></i> at Le Wagon
+  <div id="notifToast" class="toast align-items-center text-bg-dark border-0 position-fixed bottom-0 end-0 m-4 d-none" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="notifToastBody"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="document.getElementById('notifToast').classList.add('d-none')"></button>
     </div>
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const badge = document.getElementById('notifBadge');
+      const toast = document.getElementById('notifToast');
+      const toastBody = document.getElementById('notifToastBody');
 
-  </body>
-</html>
+      if (!badge) return;
+
+      async function fetchNotifications() {
+        const res = await fetch("<%= notifications_path(format: :json) %>");
+        if (!res.ok) return;
+        const data = await res.json();
+        const count = data.unread_count || 0;
+        badge.textContent = count;
+        badge.classList.toggle('d-none', count === 0);
+
+        if (data.latest && data.latest.id) {
+          const lastId = toast.dataset.lastId;
+          if (String(lastId) !== String(data.latest.id)) {
+            toastBody.textContent = data.latest.title + " — " + (data.latest.body || "");
+            toast.classList.remove('d-none');
+            toast.dataset.lastId = data.latest.id;
+          }
+        }
+      }
+
+      fetchNotifications();
+      setInterval(fetchNotifications, 30000);
+    });
+  </script>
+
+  <footer class="footer">
+    <div class="footer-wrapper">
+      <div class="footer-grid">
+        <!-- Column 1: About -->
+        <div class="footer-col">
+          <h3>LuxeDrive</h3>
+          <ul>
+            <li><%= link_to "Accueil", root_path %></li>
+            <li><%= link_to "Parcourir", cars_path %></li>
+            <li><%= link_to "À propos", about_path %></li>
+            <li><a href="mailto:contact@luxedrive.com">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: For Renters -->
+        <div class="footer-col">
+          <h3>Pour vous</h3>
+          <ul>
+            <li><%= link_to "Trouver une voiture", cars_path %></li>
+            <li><%= link_to "Mes réservations", dashboard_path, class: (user_signed_in? ? "" : "disabled") %></li>
+            <li><a href="mailto:support@luxedrive.com">Support client</a></li>
+            <li><%= link_to "FAQ", faq_path %></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: For Owners -->
+        <div class="footer-col">
+          <h3>Propriétaires</h3>
+          <ul>
+            <li><%= link_to "Publier voiture", new_car_path, class: (user_signed_in? && current_user.admin? ? "" : "disabled") %></li>
+            <li><%= link_to "Réservations", owner_bookings_path, class: (user_signed_in? && current_user.admin? ? "" : "disabled") %></li>
+            <li><%= link_to "Tarifs", pricing_path %></li>
+            <li><%= link_to "Guide propriétaire", owner_guide_path %></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Legal & Social -->
+        <div class="footer-col">
+          <h3>Légal</h3>
+          <ul>
+            <li><%= link_to "Conditions", legal_path %></li>
+            <li><%= link_to "Confidentialité", privacy_path %></li>
+            <li><%= link_to "Cookies", cookies_path %></li>
+            <li><%= link_to "Mentions légales", mentions_legales_path %></li>
+          </ul>
+          
+          <h3 style="margin-top: 2rem;">Suivez-nous</h3>
+          <div class="footer-socials">
+            <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <p>&copy; <%= Date.today.year %> LuxeDrive. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>

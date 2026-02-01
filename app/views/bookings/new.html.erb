@@ -1,13 +1,325 @@
-<div class="container" style="min-height:75vh">
- 
-  <div class="form-new">
-    <%= simple_form_for([@car, @booking]) do |f| %>
-    <%= f.input :checkin_date %>
-    <%= f.input :checkout_date %>
-    <%= f.submit class: "btn btn-primary" %>
-  <% end %>
+<div class="booking-container">
+  <div class="booking-header">
+    <%= link_to "← Retour", car_path(@car), class: "back-link" %>
+    <h1 class="booking-title">Réserver <%= @car.brand %> <%= @car.model %></h1>
   </div>
 
+  <div class="booking-content">
+    <!-- Car Summary Card -->
+    <div class="booking-car-summary">
+      <div class="summary-image">
+        <% if @car.photos.attached? %>
+          <%= image_tag @car.photos.first, alt: "#{@car.brand} #{@car.model}" %>
+        <% else %>
+          <div class="placeholder-large">
+            <i class="fas fa-car"></i>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="summary-info">
+        <h2><%= @car.brand %> <span><%= @car.model %></span></h2>
+        <div class="summary-specs">
+          <div class="spec">
+            <i class="fas fa-calendar"></i>
+            <span><%= @car.year %></span>
+          </div>
+          <div class="spec">
+            <i class="fas fa-tag"></i>
+            <span><%= @car.category %></span>
+          </div>
+          <div class="spec">
+            <i class="fas fa-map-marker-alt"></i>
+            <span><%= @car.address %></span>
+          </div>
+        </div>
+        
+        <div class="price-info">
+          <span class="price-label">Prix journalier :</span>
+          <span class="price-value"><%= number_with_precision(@car.price, precision: 0) %> €</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Form Card -->
+    <div class="booking-form-card">
+      <h3 class="form-title">Détails de votre réservation</h3>
+
+      <%= simple_form_for([@car, @booking]) do |f| %>
+        <%= f.error_notification %>
+        <% if @booking.errors.any? %>
+          <div class="alert alert-danger">
+            <strong>Merci de corriger :</strong>
+            <ul class="mb-0">
+              <% @booking.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <div class="form-section">
+          <div class="date-group">
+            <div class="date-input-wrapper">
+              <label class="form-label">
+                <i class="fas fa-arrow-right"></i> Date d'arrivée
+              </label>
+              <%= f.input :checkin_date, 
+                          as: :string,
+                          label: false,
+                          input_html: { class: "date-input", min: Date.today.to_s, type: "date" } %>
+            </div>
+
+            <div class="date-input-wrapper">
+              <label class="form-label">
+                <i class="fas fa-arrow-left"></i> Date de départ
+              </label>
+              <%= f.input :checkout_date,
+                          as: :string,
+                          label: false,
+                          input_html: { class: "date-input", min: Date.today.to_s, type: "date" } %>
+            </div>
+          </div>
+
+          <div class="date-group">
+            <div class="date-input-wrapper">
+              <label class="form-label">
+                <i class="fas fa-clock"></i> Heure d'enlèvement
+              </label>
+              <%= f.input :pickup_time,
+                          as: :string,
+                          label: false,
+                          input_html: { class: "date-input", type: "time" } %>
+            </div>
+
+            <div class="date-input-wrapper">
+              <label class="form-label">
+                <i class="fas fa-clock"></i> Heure de retour
+              </label>
+              <%= f.input :return_time,
+                          as: :string,
+                          label: false,
+                          input_html: { class: "date-input", type: "time" } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4 class="section-title">Lieu de prise en charge</h4>
+          <div class="date-group">
+            <div class="date-input-wrapper">
+              <label class="form-label">
+                <i class="fas fa-map-pin"></i> Mode
+              </label>
+              <%= f.input :pickup_mode,
+                          as: :select,
+                          label: false,
+                          collection: [["Retrait sur place", "pickup"], ["Livraison", "delivery"]],
+                          selected: "pickup",
+                          input_html: { class: "date-input", id: "pickupMode" } %>
+            </div>
+
+            <div class="date-input-wrapper">
+              <label class="form-label">
+                <i class="fas fa-location-dot"></i> Adresse
+              </label>
+              <%= f.input :pickup_address,
+                          label: false,
+                          input_html: { class: "date-input", id: "pickupAddress", data: { car_address: @car.address } },
+                          placeholder: "Adresse de livraison" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4 class="section-title">Conducteur(s)</h4>
+          <div class="date-group">
+            <div class="date-input-wrapper">
+              <label class="form-label">
+                <i class="fas fa-user"></i> Age du conducteur
+              </label>
+              <%= f.input :driver_age,
+                          as: :integer,
+                          label: false,
+                          input_html: { class: "date-input", min: 18, id: "driverAge" } %>
+            </div>
+
+            <div class="date-input-wrapper">
+              <label class="form-label">
+                <i class="fas fa-id-card"></i> Annees de permis
+              </label>
+              <%= f.input :license_years,
+                          as: :integer,
+                          label: false,
+                          input_html: { class: "date-input", min: 0 } %>
+            </div>
+
+            <div class="date-input-wrapper">
+              <label class="form-label">
+                <i class="fas fa-users"></i> Nombre de conducteurs
+              </label>
+              <%= f.input :drivers_count,
+                          as: :integer,
+                          label: false,
+                          input_html: { class: "date-input", min: 1, max: 4, id: "driversCount" } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h4 class="section-title">Options</h4>
+          <div class="options-grid">
+            <label class="option-card">
+              <%= f.input :premium_insurance, as: :boolean, label: false, input_html: { id: "premiumInsurance" } %>
+              <span>Assurance premium (+25 €/jour)</span>
+            </label>
+            <label class="option-card">
+              <%= f.input :child_seat, as: :boolean, label: false, input_html: { id: "childSeat" } %>
+              <span>Siege enfant (+8 €/jour)</span>
+            </label>
+            <label class="option-card">
+              <%= f.input :gps, as: :boolean, label: false, input_html: { id: "gpsOption" } %>
+              <span>GPS (+6 €/jour)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <label class="option-card">
+            <%= f.input :terms_accepted, as: :boolean, label: false %>
+            <span>Je confirme remplir les conditions de reservation (age minimum, permis valide, assurance).</span>
+          </label>
+          <label class="option-card">
+            <%= f.input :deposit_card, as: :boolean, label: false %>
+            <span>Je confirme disposer d'une carte de credit pour la caution (300 €).</span>
+          </label>
+        </div>
+
+        <!-- Price Calculation Preview -->
+        <div class="price-calculation" id="priceCalculation">
+          <div class="calc-row">
+            <span class="calc-label">Nombre de jours :</span>
+            <span class="calc-value" id="numberOfDays">0</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label">Prix par jour :</span>
+            <span class="calc-value"><%= number_with_precision(@car.price, precision: 0) %> €</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label">Options / jour :</span>
+            <span class="calc-value" id="optionsPerDay">0 €</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label">Livraison :</span>
+            <span class="calc-value" id="deliveryFee">0 €</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label">Conducteurs supp. :</span>
+            <span class="calc-value" id="extraDriversFee">0 €</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label">Jeune conducteur :</span>
+            <span class="calc-value" id="youngDriverFee">0 €</span>
+          </div>
+          <div class="calc-divider"></div>
+          <div class="calc-row total">
+            <span class="calc-label">Montant total :</span>
+            <span class="calc-value" id="totalPrice">0 €</span>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="form-actions">
+          <%= f.submit "Confirmer la réservation", 
+                       class: "btn btn-primary btn-lg btn-submit",
+                       data: { disable_with: "Traitement..." } %>
+
+          <%= link_to "Annuler", car_path(@car), class: "btn btn-secondary btn-lg" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkinInput = document.querySelector('input[name$="[checkin_date]"]');
+    const checkoutInput = document.querySelector('input[name$="[checkout_date]"]');
+    const numberOfDaysElement = document.getElementById('numberOfDays');
+    const totalPriceElement = document.getElementById('totalPrice');
+    const optionsPerDayElement = document.getElementById('optionsPerDay');
+    const deliveryFeeElement = document.getElementById('deliveryFee');
+    const extraDriversFeeElement = document.getElementById('extraDriversFee');
+    const youngDriverFeeElement = document.getElementById('youngDriverFee');
+    const pickupMode = document.getElementById('pickupMode');
+    const pickupAddress = document.getElementById('pickupAddress');
+    const driversCount = document.getElementById('driversCount');
+    const driverAge = document.getElementById('driverAge');
+    const premiumInsurance = document.getElementById('premiumInsurance');
+    const childSeat = document.getElementById('childSeat');
+    const gpsOption = document.getElementById('gpsOption');
+    const price = <%= @car.price %>;
+    const fees = {
+      premiumInsurance: 25,
+      childSeat: 8,
+      gps: 6,
+      delivery: 60,
+      extraDriver: 12,
+      youngDriver: 15
+    };
+
+    function syncPickupAddress() {
+      const carAddress = pickupAddress.dataset.carAddress;
+      if (pickupMode.value === 'pickup') {
+        pickupAddress.value = carAddress;
+        pickupAddress.readOnly = true;
+      } else if (pickupMode.value === 'delivery') {
+        pickupAddress.readOnly = false;
+        if (pickupAddress.value === carAddress) {
+          pickupAddress.value = '';
+        }
+      } else {
+        pickupAddress.readOnly = false;
+      }
+    }
+
+    function updatePrice() {
+      const checkin = new Date(checkinInput.value);
+      const checkout = new Date(checkoutInput.value);
+      const daysValid = checkin && checkout && checkout > checkin;
+      const days = daysValid ? Math.ceil((checkout - checkin) / (1000 * 60 * 60 * 24)) : 0;
+      const optionsPerDay =
+        (premiumInsurance.checked ? fees.premiumInsurance : 0) +
+        (childSeat.checked ? fees.childSeat : 0) +
+        (gpsOption.checked ? fees.gps : 0);
+      const deliveryFee = pickupMode.value === 'delivery' ? fees.delivery : 0;
+      const extraDrivers = Math.max((parseInt(driversCount.value || '1', 10) - 1), 0);
+      const extraDriversFee = extraDrivers * fees.extraDriver;
+      const youngDriverFee = parseInt(driverAge.value || '0', 10) > 0 && parseInt(driverAge.value || '0', 10) < 25 ? fees.youngDriver : 0;
+
+      const total = (days * price) + (days * optionsPerDay) + deliveryFee + extraDriversFee + youngDriverFee;
+
+      numberOfDaysElement.textContent = daysValid ? days : '0';
+      optionsPerDayElement.textContent = optionsPerDay + ' €';
+      deliveryFeeElement.textContent = deliveryFee + ' €';
+      extraDriversFeeElement.textContent = extraDriversFee + ' €';
+      youngDriverFeeElement.textContent = youngDriverFee + ' €';
+      totalPriceElement.textContent = total > 0 ? total.toLocaleString('fr-FR') + ' €' : '0 €';
+    }
+
+    checkinInput.addEventListener('change', updatePrice);
+    checkinInput.addEventListener('input', updatePrice);
+    checkoutInput.addEventListener('change', updatePrice);
+    checkoutInput.addEventListener('input', updatePrice);
+    pickupMode.addEventListener('change', () => { syncPickupAddress(); updatePrice(); });
+    driversCount.addEventListener('change', updatePrice);
+    driverAge.addEventListener('change', updatePrice);
+    premiumInsurance.addEventListener('change', updatePrice);
+    childSeat.addEventListener('change', updatePrice);
+    gpsOption.addEventListener('change', updatePrice);
+
+    syncPickupAddress();
+    updatePrice();
+  });
+</script>
 
         

@@ -1,0 +1,187 @@
+<div class="booking-container">
+  <div class="booking-header">
+    <%= link_to "← Retour", dashboard_path, class: "back-link" %>
+    <h1 class="booking-title">Paiement de votre réservation</h1>
+  </div>
+
+  <div class="booking-content">
+    <div class="booking-form-card payment-card">
+      <h3 class="form-title">Récapitulatif</h3>
+
+      <div class="payment-timeline">
+        <div class="timeline-step active">
+          <span class="dot"></span>
+          <span class="label">Réservation</span>
+        </div>
+        <div class="timeline-step active">
+          <span class="dot"></span>
+          <span class="label">Paiement</span>
+        </div>
+        <div class="timeline-step">
+          <span class="dot"></span>
+          <span class="label">Validation</span>
+        </div>
+      </div>
+
+      <div class="payment-summary">
+        <div class="summary-row">
+          <span>Véhicule</span>
+          <strong><%= @booking.car.brand %> <%= @booking.car.model %></strong>
+        </div>
+        <div class="summary-row">
+          <span>Dates</span>
+          <strong><%= l(@booking.checkin_date, format: :short) %> → <%= l(@booking.checkout_date, format: :short) %></strong>
+        </div>
+        <div class="summary-row">
+          <span>Nombre de jours</span>
+          <strong><%= @booking.number_of_days %></strong>
+        </div>
+        <div class="summary-row">
+          <span>Prix total</span>
+          <strong><%= number_with_precision(@booking.total_price, precision: 0) %> €</strong>
+        </div>
+        <div class="summary-row">
+          <span>Options / jour</span>
+          <strong><%= @booking.options_price_per_day %> €</strong>
+        </div>
+        <div class="summary-row">
+          <span>Livraison</span>
+          <strong><%= @booking.delivery_fee %> €</strong>
+        </div>
+        <div class="summary-row">
+          <span>Conducteurs supp.</span>
+          <strong><%= @booking.extra_driver_fee %> €</strong>
+        </div>
+        <div class="summary-row">
+          <span>Jeune conducteur</span>
+          <strong><%= @booking.young_driver_fee %> €</strong>
+        </div>
+        <div class="summary-row">
+          <span>Mode</span>
+          <strong><%= @booking.pickup_mode == "delivery" ? "Livraison" : "Retrait sur place" %></strong>
+        </div>
+      </div>
+
+      <div class="payment-methods">
+        <div class="stripe-badge">
+          <span class="stripe-mark">Stripe</span>
+          <span>Paiement sécurisé</span>
+        </div>
+        <span class="secure-badge"><i class="fas fa-lock"></i> Sécurisé</span>
+        <div class="methods-row">
+          <span>Cartes acceptées :</span>
+          <div class="cards">
+            <span>Visa</span>
+            <span>Mastercard</span>
+            <span>Amex</span>
+          </div>
+        </div>
+        <div class="card-element">
+          <label for="card-element">Carte bancaire</label>
+          <div id="card-element"></div>
+          <div id="card-errors" class="card-errors"></div>
+        </div>
+        <div class="paypal-block">
+          <div class="paypal-title">
+            Ou payer avec PayPal
+            <span class="paypal-badge">PayPal vérifié</span>
+          </div>
+          <div id="paypal-button-container"></div>
+          <div id="paypal-unavailable" class="card-errors d-none">PayPal indisponible pour le moment.</div>
+        </div>
+      </div>
+
+      <div class="payment-notice">
+        <p><strong>Caution :</strong> carte de crédit requise (300 €).</p>
+        <p>Annulation gratuite jusqu’à 24h avant l’heure de départ.</p>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary btn-lg btn-submit" id="payNowBtn">Payer maintenant</button>
+        <%= link_to "Modifier la réservation", new_car_booking_path(@booking.car), class: "btn btn-secondary btn-lg" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=<%= ENV.fetch('PAYPAL_CLIENT_ID', '') %>&currency=EUR"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('payNowBtn');
+    if (!btn) return;
+
+    const publishableKey = "<%= ENV.fetch('STRIPE_PUBLISHABLE_KEY', '') %>";
+    if (!publishableKey) return;
+    const stripe = Stripe(publishableKey);
+    const elements = stripe.elements();
+    const card = elements.create('card', { hidePostalCode: true });
+    card.mount('#card-element');
+    const errorEl = document.getElementById('card-errors');
+
+    btn.addEventListener('click', async function(e) {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = "Redirection...";
+      try {
+        const res = await fetch("<%= start_payment_booking_path(@booking, format: :json) %>", {
+          method: "POST",
+          headers: {
+            "X-CSRF-Token": "<%= form_authenticity_token %>",
+            "Content-Type": "application/json"
+          }
+        });
+        if (!res.ok) throw new Error("payment session error");
+        const data = await res.json();
+        if (!data.client_secret) throw new Error("missing client_secret");
+        const result = await stripe.confirmCardPayment(data.client_secret, {
+          payment_method: { card: card }
+        });
+        if (result.error) {
+          errorEl.textContent = result.error.message;
+          btn.disabled = false;
+          btn.textContent = "Payer maintenant";
+          return;
+        }
+        if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
+          window.location.href = "<%= payment_intent_success_booking_path(@booking) %>?payment_intent=" + result.paymentIntent.id;
+          return;
+        }
+      } catch (e2) {
+        window.location.href = "<%= payment_failed_booking_path(@booking) %>";
+      }
+    });
+
+    if (window.paypal) {
+      paypal.Buttons({
+        createOrder: async function() {
+          const res = await fetch("<%= paypal_create_booking_path(@booking) %>", {
+            method: "POST",
+            headers: { "X-CSRF-Token": "<%= form_authenticity_token %>" }
+          });
+          const data = await res.json();
+          return data.id;
+        },
+        onApprove: async function(data) {
+          const res = await fetch("<%= paypal_capture_booking_path(@booking) %>", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRF-Token": "<%= form_authenticity_token %>"
+            },
+            body: JSON.stringify({ order_id: data.orderID })
+          });
+          const result = await res.json();
+          if (result.ok) {
+            window.location.href = result.redirect_url;
+          } else {
+            window.location.href = "<%= payment_failed_booking_path(@booking) %>";
+          }
+        }
+      }).render('#paypal-button-container');
+    } else {
+      const fallback = document.getElementById('paypal-unavailable');
+      if (fallback) fallback.classList.remove('d-none');
+    }
+  });
+</script>

@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="admin-page-header">
+    <p class="header-eyebrow">Super Admin</p>
+    <h1 class="header-title">
+      <span class="header-icon">✏️</span>
+      Modifier l'utilisateur
+    </h1>
+    <p class="header-subtitle">Mettre a jour les informations du compte.</p>
+  </div>
+
+  <div class="card border-0 shadow-sm admin-table-card">
+    <div class="card-body">
+      <%= simple_form_for([:super_admin, @user]) do |f| %>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <%= f.input :first_name, label: "Prénom" %>
+          </div>
+          <div class="col-md-6">
+            <%= f.input :last_name, label: "Nom" %>
+          </div>
+          <div class="col-md-6">
+            <%= f.input :email, label: "Email" %>
+          </div>
+          <div class="col-md-6">
+            <%= f.input :role, label: "Rôle", collection: User.roles.keys, include_blank: false %>
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+          <%= f.submit "Enregistrer", class: "btn btn-primary" %>
+          <%= link_to "Retour", super_admin_user_path(@user), class: "btn btn-outline-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

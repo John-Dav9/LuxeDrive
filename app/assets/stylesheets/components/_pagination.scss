@@ -1,0 +1,66 @@
+// ============================================
+// PAGINATION
+// ============================================
+
+.pagination-wrapper {
+  margin-top: 2.5rem;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination a,
+.pagination span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pagination a:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+.pagination .current {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.pagination .gap {
+  background: transparent;
+  border-color: transparent;
+  color: #94a3b8;
+}
+
+.pagination a:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .pagination a,
+  .pagination span {
+    min-width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+}

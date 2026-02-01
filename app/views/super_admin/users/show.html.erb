@@ -1,0 +1,237 @@
+<div class="container-fluid">
+  <div class="admin-page-header">
+    <p class="header-eyebrow">Super Admin</p>
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <h1 class="header-title">
+          <span class="header-icon">👤</span>
+          <%= @user.full_name %>
+        </h1>
+        <p class="header-subtitle mb-0"><%= @user.email %></p>
+      </div>
+      <div>
+        <%= link_to "← Retour", super_admin_users_path, class: "btn btn-outline-light" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Informations utilisateur -->
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm mb-4 admin-table-card">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Informations</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-sm admin-table">
+            <tr>
+              <th>ID</th>
+              <td><code><%= @user.id %></code></td>
+            </tr>
+            <tr>
+              <th>Prénom</th>
+              <td><%= @user.first_name %></td>
+            </tr>
+            <tr>
+              <th>Nom</th>
+              <td><%= @user.last_name %></td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td><%= @user.email %></td>
+            </tr>
+            <tr>
+              <th>Rôle actuel</th>
+              <td>
+                <% if @user.super_admin? %>
+                  <span class="badge bg-danger">🔧 Super Admin</span>
+                <% elsif @user.admin_client? %>
+                  <span class="badge bg-success">🚗 Propriétaire</span>
+                <% else %>
+                  <span class="badge bg-info">👤 Visiteur</span>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <th>Inscrit le</th>
+              <td><%= @user.created_at.strftime("%d/%m/%Y à %H:%M") %></td>
+            </tr>
+            <tr>
+              <th>Dernière MAJ</th>
+              <td><%= @user.updated_at.strftime("%d/%m/%Y à %H:%M") %></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Changer le rôle -->
+      <div class="card border-0 shadow-sm admin-table-card">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Changer le rôle</h5>
+        </div>
+        <div class="card-body">
+          <% if @user == current_user %>
+            <div class="alert alert-warning mb-0">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              Vous ne pouvez pas modifier votre propre rôle.
+            </div>
+          <% else %>
+            <%= form_with url: change_role_super_admin_user_path(@user), method: :patch do |f| %>
+              <div class="mb-3">
+                <%= f.label :role, "Nouveau rôle", class: "form-label" %>
+                <%= f.select :role, 
+                    options_for_select([
+                      ["Super Admin", "super_admin"],
+                      ["Propriétaire de voitures", "admin_client"],
+                      ["Visiteur", "visitor"]
+                    ], @user.role), 
+                    {}, 
+                    class: "form-select" %>
+              </div>
+              <%= f.submit "Changer le rôle", class: "btn btn-primary w-100", data: { turbo_confirm: "Êtes-vous sûr de vouloir changer le rôle de cet utilisateur ?" } %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistiques et activité -->
+    <div class="col-lg-8">
+      <!-- Stats -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="card border-0 bg-primary text-white">
+            <div class="card-body text-center">
+              <h3 class="mb-0"><%= @user.cars.count %></h3>
+              <small>Voitures</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0 bg-success text-white">
+            <div class="card-body text-center">
+              <h3 class="mb-0"><%= @user.bookings.count %></h3>
+              <small>Réservations faites</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0 bg-warning text-white">
+            <div class="card-body text-center">
+              <h3 class="mb-0"><%= @user.bookings_as_owner.count %></h3>
+              <small>Réservations reçues</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Voitures -->
+      <div class="card border-0 shadow-sm mb-4 admin-table-card">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Voitures (<%= @user.cars.count %>)</h5>
+        </div>
+        <div class="card-body">
+          <% if @user.cars.any? %>
+            <div class="table-responsive">
+              <table class="table table-sm admin-table">
+                <thead>
+                  <tr>
+                    <th>Voiture</th>
+                    <th>Catégorie</th>
+                    <th>Prix/jour</th>
+                    <th>Statut</th>
+                    <th>Réservations</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @user.cars.each do |car| %>
+                    <tr>
+                      <td><strong><%= car.brand %> <%= car.model %></strong></td>
+                      <td><span class="badge bg-secondary"><%= car.category %></span></td>
+                      <td><%= number_to_currency(car.price, unit: "€") %></td>
+                      <td>
+                        <% if car.status %>
+                          <span class="badge bg-success">Disponible</span>
+                        <% else %>
+                          <span class="badge bg-secondary">Indisponible</span>
+                        <% end %>
+                      </td>
+                      <td><%= car.bookings.count %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <p class="text-muted mb-0">Aucune voiture</p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Réservations -->
+      <div class="card border-0 shadow-sm admin-table-card">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Réservations récentes (<%= @user.bookings.count %>)</h5>
+        </div>
+        <div class="card-body">
+          <% if @user.bookings.any? %>
+            <div class="table-responsive">
+              <table class="table table-sm admin-table">
+                <thead>
+                  <tr>
+                    <th>Voiture</th>
+                    <th>Dates</th>
+                    <th>Prix</th>
+                    <th>Statut</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @user.bookings.order(created_at: :desc).limit(10).each do |booking| %>
+                    <tr>
+                      <td><strong><%= booking.car.brand %> <%= booking.car.model %></strong></td>
+                      <td><small><%= booking.checkin_date.strftime("%d/%m/%Y") %> - <%= booking.checkout_date.strftime("%d/%m/%Y") %></small></td>
+                      <td><%= number_to_currency(booking.total_price, unit: "€") %></td>
+                      <td>
+                        <% case booking.status %>
+                        <% when 'pending_payment' %>
+                          <span class="badge bg-secondary">Paiement en attente</span>
+                        <% when 'pending' %>
+                          <span class="badge bg-warning">En attente</span>
+                        <% when 'accepted' %>
+                          <span class="badge bg-success">Acceptée</span>
+                        <% when 'rejected' %>
+                          <span class="badge bg-danger">Refusée</span>
+                        <% when 'cancelled' %>
+                          <span class="badge bg-secondary">Annulée</span>
+                        <% when 'expired' %>
+                          <span class="badge bg-dark">Expirée</span>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <p class="text-muted mb-0">Aucune réservation</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="card border-0 shadow-sm mt-4 admin-table-card">
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <%= link_to "✏️ Modifier", edit_super_admin_user_path(@user), class: "btn btn-warning" %>
+        <% unless @user == current_user %>
+          <%= link_to "🗑️ Supprimer l'utilisateur", 
+              super_admin_user_path(@user), 
+              data: { turbo_method: :delete, turbo_confirm: "Êtes-vous sûr ? Cette action est irréversible." }, 
+              class: "btn btn-danger" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

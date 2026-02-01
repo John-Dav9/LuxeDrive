@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="owner-page-header">
+    <p class="header-eyebrow">Notifications</p>
+    <h1 class="header-title">
+      <span class="header-icon">🔔</span>
+      Vos notifications
+    </h1>
+    <p class="header-subtitle">Suivi des reservations et alertes importantes.</p>
+  </div>
+
+  <% if @notifications.any? %>
+    <div class="owner-table-card">
+      <div class="table-responsive">
+        <table class="table owner-table">
+          <thead>
+            <tr>
+              <th>Statut</th>
+              <th>Titre</th>
+              <th>Message</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @notifications.each do |n| %>
+              <tr>
+                <td>
+                  <% if n.read_at.present? %>
+                    <span class="badge bg-secondary">Lu</span>
+                  <% else %>
+                    <span class="badge bg-success">Nouveau</span>
+                  <% end %>
+                </td>
+                <td><strong><%= n.title %></strong></td>
+                <td><%= n.body %></td>
+                <td><%= l(n.created_at, format: :short) %></td>
+                <td>
+                  <% if n.read_at.blank? %>
+                    <%= link_to "Marquer lu", read_notification_path(n), data: { turbo_method: :patch }, class: "btn btn-outline-primary btn-sm" %>
+                  <% end %>
+                  <% if n.link_path.present? %>
+                    <%= link_to "Ouvrir", n.link_path, class: "btn btn-outline-secondary btn-sm" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <i class="fas fa-bell"></i>
+      <h2>Aucune notification</h2>
+      <p>Vous n'avez pas encore de notifications.</p>
+    </div>
+  <% end %>
+</div>

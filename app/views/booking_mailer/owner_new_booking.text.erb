@@ -1,0 +1,9 @@
+Bonjour <%= @owner.first_name %>,
+
+Une nouvelle reservation est en attente pour votre voiture :
+- Vehicule : <%= @booking.car.brand %> <%= @booking.car.model %>
+- Dates : <%= @booking.checkin_date %> au <%= @booking.checkout_date %>
+
+Merci de l'accepter ou la refuser dans les 2 heures.
+
+LuxeDrive

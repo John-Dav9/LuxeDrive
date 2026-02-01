@@ -1,0 +1,9 @@
+Bonjour <%= @owner.first_name %>,
+
+La reservation en attente pour votre voiture a expire :
+- Vehicule : <%= @booking.car.brand %> <%= @booking.car.model %>
+- Dates : <%= @booking.checkin_date %> au <%= @booking.checkout_date %>
+
+Le vehicule redevient disponible.
+
+LuxeDrive

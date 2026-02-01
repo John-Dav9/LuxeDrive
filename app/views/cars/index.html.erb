@@ -1,21 +1,67 @@
 <div class="container">
 
-  <div class="cards">
-      <% @cars.each do |car| %>
-        <div class="card-car">
-          <%= image_tag car.photo_url %>
-          <div class="card-car-infos">
-            <div>
-              <h2><%= link_to "#{car.brand} #{car.model}", car_path(car) %></h2>
-              <p>Localisation : <%= car.address %></p>
-            </div>
-            <h2 class="card-car-pricing"><p>Prix : <%= car.price %> €/jour</p></h2>
-          </div>
-        </div>
-      <% end %>
+  <div class="cars-header">
+    <h1 class="page-title">Nos véhicules disponibles</h1>
+    <% if user_signed_in? && current_user.can_manage_car?(Car.new(user_id: current_user.id)) %>
+      <%= link_to "Ajouter une voiture", new_car_path, class: "btn btn-primary btn-lg" %>
+    <% end %>
   </div>
 
-      <%= link_to "Ajouter une voiture", new_car_path, class: "btn btn-primary" %>
+  <div class="cards">
+    <% @cars.each do |car| %>
+      <div class="card-car">
+        <div class="card-car-image">
+          <% if car.photos.attached? %>
+            <%= link_to image_tag(car.photos.first, class: "car-image"), car_path(car) %>
+          <% else %>
+            <div class="placeholder-image d-flex align-items-center justify-content-center">
+              <i class="fas fa-car fa-3x text-muted"></i>
+            </div>
+          <% end %>
+          <div class="card-car-badge">
+            <% if params[:checkin_date].present? && params[:checkout_date].present? && car.under_option_for?(params[:checkin_date], params[:checkout_date]) %>
+              <span class="badge-option">Sous option</span>
+            <% elsif car.status %>
+              <span class="badge-available">Disponible</span>
+            <% else %>
+              <span class="badge-unavailable">Indisponible</span>
+            <% end %>
+          </div>
+        </div>
 
-  
+        <div class="card-car-infos">
+          <div class="car-header-info">
+            <h2><%= link_to "#{car.brand} #{car.model}", car_path(car) %></h2>
+            <div class="price-tag"><%= number_with_precision(car.price, precision: 0) %> €/jour</div>
+          </div>
+          <p class="car-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <%= car.address %>
+          </p>
+          <p class="car-category">
+            <span class="category-label"><%= car.category %></span>
+          </p>
+        </div>
+
+        <div class="card-car-actions">
+          <%= link_to "Voir détails", car_path(car), class: "btn btn-secondary btn-sm" %>
+          <% if params[:checkin_date].present? && params[:checkout_date].present? && car.under_option_for?(params[:checkin_date], params[:checkout_date]) %>
+            <button class="btn btn-disabled btn-sm" disabled>Sous option</button>
+          <% elsif car.status %>
+            <% if user_signed_in? %>
+              <%= link_to "Réserver", new_car_booking_path(car), class: "btn btn-primary btn-sm" %>
+            <% else %>
+              <%= link_to "Se connecter", new_user_session_path, class: "btn btn-outline btn-sm" %>
+            <% end %>
+          <% else %>
+            <button class="btn btn-disabled btn-sm" disabled>Indisponible</button>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="pagination-wrapper d-flex justify-content-center mt-4">
+    <%= paginate @cars %>
+  </div>
 </div>

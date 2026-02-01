@@ -1,0 +1,167 @@
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col">
+      <h1 class="h2">📊 Tableau de bord Propriétaire</h1>
+      <p class="text-muted">Suivi de vos véhicules et réservations</p>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-3">
+      <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="text-muted mb-1">Mes voitures</p>
+              <h3 class="mb-0"><%= @total_cars %></h3>
+              <small class="text-success"><%= @available_cars %> disponibles</small>
+            </div>
+            <div class="text-primary">
+              <i class="fas fa-car fa-3x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="text-muted mb-1">Indisponibles</p>
+              <h3 class="mb-0"><%= @unavailable_cars %></h3>
+              <small class="text-muted">En maintenance ou réservées</small>
+            </div>
+            <div class="text-secondary">
+              <i class="fas fa-car-crash fa-3x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="text-muted mb-1">Réservations</p>
+              <h3 class="mb-0"><%= @total_bookings %></h3>
+              <small class="text-warning"><%= @pending_bookings %> en attente</small>
+            </div>
+            <div class="text-warning">
+              <i class="fas fa-calendar-check fa-3x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card stat-card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="text-muted mb-1">Revenus estimés</p>
+              <h3 class="mb-0"><%= number_with_precision(@total_revenue, precision: 0) %> €</h3>
+              <small class="text-success"><%= @accepted_bookings %> acceptées</small>
+            </div>
+            <div class="text-success">
+              <i class="fas fa-euro-sign fa-3x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Mes voitures récentes</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Véhicule</th>
+                  <th>Catégorie</th>
+                  <th>Prix</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @recent_cars.each do |car| %>
+                  <tr>
+                    <td><%= car.brand %> <%= car.model %></td>
+                    <td><span class="badge bg-secondary"><%= car.category %></span></td>
+                    <td><%= number_with_precision(car.price, precision: 0) %> €/jour</td>
+                    <td>
+                      <% if car.status %>
+                        <span class="badge bg-success">Disponible</span>
+                      <% else %>
+                        <span class="badge bg-danger">Indisponible</span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer bg-white">
+          <%= link_to "Voir toutes mes voitures →", cars_path, class: "text-decoration-none" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Réservations récentes</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Client</th>
+                  <th>Voiture</th>
+                  <th>Dates</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @recent_bookings.each do |booking| %>
+                  <tr>
+                    <td><small><%= booking.user.full_name %></small></td>
+                    <td><small><%= booking.car.brand %> <%= booking.car.model %></small></td>
+                    <td><small><%= booking.checkin_date.strftime("%d/%m") %> - <%= booking.checkout_date.strftime("%d/%m") %></small></td>
+                    <td>
+                      <% case booking.status %>
+                      <% when 'pending' %>
+                        <span class="badge bg-warning">En attente</span>
+                      <% when 'accepted' %>
+                        <span class="badge bg-success">Acceptée</span>
+                      <% when 'rejected' %>
+                        <span class="badge bg-danger">Refusée</span>
+                      <% when 'cancelled' %>
+                        <span class="badge bg-secondary">Annulée</span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer bg-white">
+          <%= link_to "Voir toutes les réservations →", owner_bookings_path, class: "text-decoration-none" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

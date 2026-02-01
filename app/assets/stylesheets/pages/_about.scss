@@ -1,0 +1,290 @@
+// About Page Styles
+// =================
+
+.about-hero {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  border-radius: 0;
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+
+      @media (max-width: 768px) {
+        font-size: 2rem;
+      }
+    }
+
+    .lead {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      margin: 0;
+    }
+  }
+}
+
+.about-section {
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 2px solid #f0f4ff;
+
+  &:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+}
+
+.about-image {
+  text-align: center;
+}
+
+.placeholder-image-large {
+  background: linear-gradient(135deg, #eef2f7 0%, #dbe5f4 100%);
+  border-radius: 16px;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  color: rgba(37, 99, 235, 0.2);
+  min-height: 300px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    font-size: 3rem;
+    min-height: 200px;
+  }
+}
+
+// Values Section
+.values-section {
+  background: #f7f8fb;
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  margin: 3rem 0;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+}
+
+.value-card {
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin: 1rem 0;
+  }
+
+  p {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
+.value-icon {
+  color: var(--brand-primary);
+  font-size: 3rem;
+}
+
+// Stats Section
+.stats-section {
+  margin: 3rem 0;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+}
+
+.stat-card {
+  padding: 2rem 1rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1);
+    transform: translateY(-4px);
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: #64748b;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+// Team Section
+.team-section {
+  margin: 3rem 0;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+}
+
+.team-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
+    transform: translateY(-6px);
+  }
+}
+
+.team-avatar {
+  font-size: 4rem;
+  color: var(--brand-primary);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.team-info {
+  h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin: 0.5rem 0;
+  }
+
+  .role {
+    color: var(--brand-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// CTA Section
+.cta-section {
+  background: linear-gradient(135deg, var(--brand-primary), #1d4ed8);
+  color: white;
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin: 3rem 0;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
+
+  .btn {
+    margin: 0.5rem;
+    font-weight: 600;
+  }
+
+  .btn-light {
+    background: white;
+    color: var(--brand-primary);
+    border: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .btn-outline-light {
+    border: 2px solid white;
+    color: white;
+    background: transparent;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: white;
+      color: var(--brand-primary);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .about-hero .hero-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .values-section,
+  .stats-section,
+  .team-section {
+    padding: 2rem 1rem;
+  }
+}

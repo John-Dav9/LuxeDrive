@@ -1,0 +1,582 @@
+// Booking Page Styles
+// ===================
+
+.booking-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  animation: fadeIn 0.4s ease-in;
+}
+
+.booking-header {
+  margin-bottom: 2rem;
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--brand-primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+
+    &:hover {
+      background-color: rgba(37, 99, 235, 0.1);
+      transform: translateX(-4px);
+    }
+  }
+
+  .booking-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin: 0;
+  }
+}
+
+.booking-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+// Car Summary Card
+.booking-car-summary {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+
+  @media (max-width: 992px) {
+    position: static;
+    top: auto;
+  }
+}
+
+.summary-image {
+  width: 100%;
+  height: 240px;
+  background: linear-gradient(135deg, #f0f4ff 0%, #f7f8fb 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+
+  .placeholder-large {
+    font-size: 4rem;
+    color: rgba(37, 99, 235, 0.2);
+  }
+}
+
+.summary-info {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin: 0;
+
+    span {
+      color: var(--brand-primary);
+    }
+  }
+}
+
+.summary-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .spec {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: #64748b;
+
+    i {
+      color: var(--brand-accent);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.price-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 2px solid #f0f4ff;
+
+  .price-label {
+    font-size: 0.95rem;
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .price-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--brand-primary), #1d4ed8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+// Booking Form Card
+.booking-form-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+  margin: 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f4ff;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.date-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.date-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--brand-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  i {
+    color: var(--brand-primary);
+    font-size: 0.875rem;
+  }
+}
+
+.date-input {
+  padding: 0.875rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background: white;
+
+  &:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  &:hover {
+    border-color: #cbd5e1;
+  }
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+  margin: 0;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.option-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #f8fafc;
+  cursor: pointer;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.option-card input {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Price Calculation
+.price-calculation {
+  background: linear-gradient(135deg, #f7f8fb 0%, #f0f4ff 100%);
+  border-left: 4px solid var(--brand-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+
+    .calc-label {
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    .calc-value {
+      color: var(--brand-dark);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    &.total {
+      .calc-label {
+        color: var(--brand-dark);
+        font-weight: 700;
+        font-size: 1.125rem;
+      }
+
+      .calc-value {
+        font-size: 1.5rem;
+        color: var(--brand-primary);
+        font-weight: 700;
+      }
+    }
+  }
+
+  .calc-divider {
+    height: 1px;
+    background: rgba(37, 99, 235, 0.2);
+    margin: 0.5rem 0;
+  }
+}
+
+.payment-card {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.payment-summary {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eef2f7;
+  font-size: 1rem;
+}
+
+.summary-row span {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.payment-notice {
+  margin-top: 1.25rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  color: #0f172a;
+}
+
+.payment-timeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.timeline-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #94a3b8;
+  justify-content: center;
+}
+
+.timeline-step .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+
+.timeline-step.active {
+  color: #2563eb;
+}
+
+.timeline-step.active .dot {
+  background: #2563eb;
+}
+
+.payment-methods {
+  margin-top: 1rem;
+  border: 1px dashed #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.stripe-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+}
+
+.stripe-mark {
+  background: #635bff;
+  color: #ffffff;
+  font-weight: 800;
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+.secure-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #ecfdf3;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.methods-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.methods-row .cards {
+  display: flex;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.payment-methods .secure-badge {
+  align-self: start;
+}
+
+.card-element {
+  display: grid;
+  gap: 0.5rem;
+}
+
+#card-element {
+  padding: 0.85rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.card-errors {
+  color: #dc2626;
+  font-size: 0.9rem;
+}
+
+.paypal-block {
+  margin-top: 0.75rem;
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 0.75rem;
+}
+
+.paypal-title {
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.paypal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #eef2ff;
+  color: #1d4ed8;
+  border: 1px solid #c7d2fe;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+// Form Actions
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.terms-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: #64748b;
+  cursor: pointer;
+
+  .checkbox-input {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    accent-color: var(--brand-primary);
+  }
+
+  &:hover {
+    color: var(--brand-dark);
+  }
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--brand-primary), #1d4ed8);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: var(--brand-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+  }
+}
+
+.btn-lg {
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

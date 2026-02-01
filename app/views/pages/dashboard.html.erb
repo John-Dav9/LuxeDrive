@@ -1,32 +1,52 @@
-<div class="container w-50">
-  <div class="fix-height" style="min-height:75vh">
+<div class="container">
+  <div class="dashboard-bookings">
+    <div class="dashboard-header">
+      <h1>Mes reservations</h1>
+      <p>Retrouvez l'historique et le statut de vos reservations.</p>
+    </div>
 
-    <% if @bookings.any? %>
-      <% @bookings.each do |booking| %>
-
-      <% if booking.user == current_user %>
-
-
-
-
-        <div class="card-product">
-          <%= image_tag booking.car.photo_url %>
-          <div class="card-product-infos">
-            <h2><strong><%= booking.car.brand %><%= booking.car.model %></strong></h2>
-            <p><strong><%= booking.user.first_name %> <%= booking.user.last_name %></strong></p>
-            <p><strong>From </strong><%= booking.checkin_date %> <strong>To</strong> <%= booking.checkout_date %></p>
-            <p><%= booking.car.price %></p>
-            <p><%= booking.status %></p>
+    <% if @my_bookings.any? %>
+      <div class="booking-list">
+        <% @my_bookings.each do |booking| %>
+          <% next unless booking.user == current_user %>
+          <div class="booking-card">
+            <div class="booking-media">
+              <% if booking.car.photos.attached? %>
+                <%= image_tag booking.car.photos.first, class: "booking-image" %>
+              <% else %>
+                <div class="booking-placeholder">
+                  <i class="fas fa-car"></i>
+                </div>
+              <% end %>
+              <span class="booking-status badge-<%= booking.status %>">
+                <%= booking.status %>
+              </span>
+            </div>
+            <div class="booking-body">
+              <div class="booking-title">
+                <h2><%= booking.car.brand %> <span><%= booking.car.model %></span></h2>
+                <div class="booking-price"><%= number_with_precision(booking.total_price, precision: 0) %> €</div>
+              </div>
+              <div class="booking-meta">
+                <span><i class="fas fa-user"></i> <%= booking.user.full_name %></span>
+                <span><i class="fas fa-calendar"></i> <%= l(booking.checkin_date, format: :short) %> - <%= l(booking.checkout_date, format: :short) %></span>
+                <span><i class="fas fa-map-marker-alt"></i> <%= booking.car.address %></span>
+              </div>
+              <% if booking.status == "pending_payment" %>
+                <div class="mt-2">
+                  <%= link_to "Payer maintenant", payment_booking_path(booking), class: "btn btn-primary btn-sm" %>
+                </div>
+              <% end %>
+            </div>
           </div>
-        </div> 
-      <% end %>
-      
-      <% end %>
-      
-   <% else %>
-   <p>You have no bookings</p>
-   <% end %>
-
-
-</div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <i class="fas fa-calendar-times"></i>
+        <h2>Aucune reservation</h2>
+        <p>Vous n'avez pas encore effectue de reservation.</p>
+      </div>
+    <% end %>
+  </div>
 </div>

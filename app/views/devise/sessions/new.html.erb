@@ -1,0 +1,36 @@
+<div class="auth-page">
+  <div class="auth-card shadow-lg">
+    <div class="auth-visual">
+      <div class="auth-brand">
+        <%= image_tag "logo.png", alt: "LuxeDrive", class: "auth-logo" %>
+        <h2>LuxeDrive</h2>
+        <p>Location premium, expérience fluide.</p>
+      </div>
+      <div class="auth-highlight">
+        <i class="fas fa-car-side"></i>
+        <span>Des voitures d’exception, en quelques clics.</span>
+      </div>
+    </div>
+
+    <div class="auth-form">
+      <h1>Connexion</h1>
+      <p class="text-muted mb-4">Accédez à votre espace personnel.</p>
+
+      <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="form-inputs">
+          <%= f.input :email, required: true, autofocus: true, input_html: { autocomplete: "email" } %>
+          <%= f.input :password, required: true, input_html: { autocomplete: "current-password" } %>
+          <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.button :submit, "Se connecter", class: "btn btn-primary w-100" %>
+        </div>
+      <% end %>
+
+      <div class="auth-links mt-3">
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<div class="container-fluid">
+  <div class="owner-page-header">
+    <p class="header-eyebrow">Proprietaire</p>
+    <h1 class="header-title">
+      <span class="header-icon">📅</span>
+      Reservations recues
+    </h1>
+    <p class="header-subtitle">Gerer les demandes et suivre les statuts.</p>
+  </div>
+
+  <div class="card border-0 shadow-sm mb-4 owner-filter-card">
+    <div class="card-body">
+      <%= form_with url: owner_bookings_path, method: :get, class: "row g-3" do |f| %>
+        <div class="col-md-4">
+          <%= f.select :status,
+              options_for_select([
+                ["Tous les statuts", ""],
+                ["En attente", "pending"],
+                ["Acceptée", "accepted"],
+                ["Refusée", "rejected"],
+                ["Annulée", "cancelled"],
+                ["Terminée", "completed"]
+              ], params[:status]),
+              {},
+              class: "form-select" %>
+        </div>
+        <div class="col-md-2">
+          <%= f.submit "Filtrer", class: "btn btn-primary w-100" %>
+        </div>
+        <div class="col-md-2">
+          <%= link_to "Réinitialiser", owner_bookings_path, class: "btn btn-outline-secondary w-100" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm owner-table-card">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 owner-table">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Client</th>
+              <th>Voiture</th>
+              <th>Dates</th>
+              <th>Statut</th>
+              <th>Montant</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @bookings.each do |booking| %>
+              <tr>
+                <td><code><%= booking.id %></code></td>
+                <td><%= booking.user.full_name %></td>
+                <td><%= booking.car.brand %> <%= booking.car.model %></td>
+                <td>
+                  <small><%= booking.checkin_date.strftime("%d/%m/%Y") %></small>
+                  -
+                  <small><%= booking.checkout_date.strftime("%d/%m/%Y") %></small>
+                </td>
+                <td>
+                <% case booking.status %>
+                <% when "pending_payment" %>
+                  <span class="badge bg-secondary">Paiement en attente</span>
+                <% when "pending" %>
+                  <span class="badge bg-warning">En attente</span>
+                <% when "accepted" %>
+                  <span class="badge bg-success">Acceptée</span>
+                <% when "rejected" %>
+                  <span class="badge bg-danger">Refusée</span>
+                <% when "cancelled" %>
+                  <span class="badge bg-secondary">Annulée</span>
+                <% when "expired" %>
+                  <span class="badge bg-dark">Expirée</span>
+                <% when "completed" %>
+                  <span class="badge bg-info">Terminée</span>
+                <% end %>
+                </td>
+                <td><%= number_with_precision(booking.total_price, precision: 0) %> €</td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <%= link_to "Voir", booking_path(booking), class: "btn btn-outline-primary" %>
+                    <% if booking.status == "pending" %>
+                      <%= link_to "Accepter", accept_booking_path(booking), data: { turbo_method: :patch }, class: "btn btn-outline-success" %>
+                      <%= link_to "Refuser", reject_booking_path(booking), data: { turbo_method: :patch }, class: "btn btn-outline-danger" %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <% if @bookings.any? %>
+      <div class="card-footer bg-white">
+        <div class="d-flex justify-content-center">
+          <%= paginate @bookings %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @bookings.empty? %>
+    <div class="alert alert-info mt-4">
+      <i class="fas fa-info-circle me-2"></i>
+      Aucune réservation trouvée.
+    </div>
+  <% end %>
+</div>
