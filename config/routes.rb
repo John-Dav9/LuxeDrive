@@ -8,8 +8,8 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # PWA files
-  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  get "service-worker.js" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get "manifest.json" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Super Admin
   namespace :super_admin do
