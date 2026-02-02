@@ -50,3 +50,7 @@ services:
         sync: false
       - key: PAYPAL_CLIENT_SECRET
         sync: false
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false
+      - key: ACTIVE_STORAGE_SERVICE
+        value: local

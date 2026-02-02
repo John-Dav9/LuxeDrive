@@ -60,18 +60,24 @@ class BookingsController < ApplicationController
   end
 
   def payment_success
-    session = Stripe::Checkout::Session.retrieve(@booking.stripe_session_id)
-    if session.payment_status == "paid"
-      @booking.update(
-        payment_status: "paid",
-        stripe_payment_intent_id: session.payment_intent,
-        paid_at: Time.current,
-        status: "pending"
-      )
-      notify_owner_if_needed(@booking)
-      redirect_to dashboard_path, notice: "Paiement confirmé. Votre réservation est en attente."
+    if @booking.stripe_session_id.present?
+      session = Stripe::Checkout::Session.retrieve(@booking.stripe_session_id)
+      if session.payment_status == "paid"
+        @booking.update(
+          payment_status: "paid",
+          stripe_payment_intent_id: session.payment_intent,
+          paid_at: Time.current,
+          status: "pending"
+        )
+        notify_owner_if_needed(@booking)
+        redirect_to dashboard_path, notice: "Paiement confirmé. Votre réservation est en attente."
+      else
+        redirect_to dashboard_path, alert: "Paiement non confirmé."
+      end
+    elsif @booking.stripe_payment_intent_id.present?
+      redirect_to payment_intent_success_booking_path(@booking, payment_intent: @booking.stripe_payment_intent_id)
     else
-      redirect_to dashboard_path, alert: "Paiement non confirmé."
+      redirect_to payment_failed_booking_path(@booking)
     end
   end
 

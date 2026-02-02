@@ -40,6 +40,7 @@ Dans le dashboard Render, configurez ces variables **AVANT** le premier déploie
 - `STRIPE_WEBHOOK_SECRET`
 - `PAYPAL_CLIENT_ID`
 - `PAYPAL_CLIENT_SECRET`
+- `PAYPAL_WEBHOOK_ID`
 
 ### 4. Lancer le déploiement
 
@@ -62,6 +63,9 @@ Si vous utilisez PayPal, configurez l'URL webhook :
 ```
 https://votre-app.onrender.com/paypal/webhooks
 ```
+
+#### Active Storage (uploads)
+Par défaut, l’app utilise `local`. Pour un stockage persistant, configurez `ACTIVE_STORAGE_SERVICE` et un provider (ex: S3) dans `config/storage.yml`.
 
 ## Plan gratuit Render
 

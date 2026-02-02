@@ -8,7 +8,7 @@ class Owner::BaseController < ApplicationController
   private
 
   def require_owner
-    return if current_user&.admin_client?
+    return if current_user&.admin?
 
     redirect_to root_path, alert: "Accès réservé aux propriétaires."
   end

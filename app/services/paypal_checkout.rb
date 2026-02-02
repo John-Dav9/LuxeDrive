@@ -34,7 +34,7 @@ class PaypalCheckout
 
   def self.access_token
     client_id = ENV["PAYPAL_CLIENT_ID"]
-    secret = ENV["PAYPAL_SECRET"]
+    secret = ENV["PAYPAL_CLIENT_SECRET"]
     return nil if client_id.blank? || secret.blank?
 
     uri = URI("#{api_base}/v1/oauth2/token")

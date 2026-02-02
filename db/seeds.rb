@@ -189,7 +189,8 @@ Booking.create!(
   premium_insurance: false,
   child_seat: false,
   gps: false,
-  terms_accepted: true
+  terms_accepted: true,
+  deposit_card: true
 )
 
 Booking.create!(
@@ -208,7 +209,8 @@ Booking.create!(
   premium_insurance: true,
   child_seat: false,
   gps: true,
-  terms_accepted: true
+  terms_accepted: true,
+  deposit_card: true
 )
 
 puts "✅ #{Booking.count} réservations créées"

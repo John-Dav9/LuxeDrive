@@ -1,5 +1,7 @@
 class PagesController < ApplicationController
+  include Authorizable
   before_action :authenticate_user!, only: %i[dashboard owner_dashboard owner_bookings]
+  before_action :require_admin_client, only: %i[owner_bookings]
 
   def home
     @featured_cars = Car.available.includes(:user, photos_attachments: :blob).limit(6).order(created_at: :desc)

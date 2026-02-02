@@ -51,7 +51,7 @@ class Booking < ApplicationRecord
   def number_of_days
     return 0 unless checkin_date && checkout_date
 
-    (checkout_date - checkin_date).to_i + 1
+    (checkout_date - checkin_date).to_i
   end
 
   def options_price_per_day

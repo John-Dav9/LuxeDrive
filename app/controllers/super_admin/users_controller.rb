@@ -39,7 +39,7 @@ class SuperAdmin::UsersController < SuperAdmin::BaseController
 
     if @user == current_user && new_role != 'super_admin'
       redirect_to super_admin_users_path, alert: "Vous ne pouvez pas modifier votre propre rôle."
-    elsif User::ROLES.keys.include?(new_role) && @user.update(role: new_role)
+    elsif User.roles.keys.include?(new_role) && @user.update(role: new_role)
       redirect_to super_admin_user_path(@user),
                   notice: "Rôle changé en #{I18n.t("activerecord.attributes.user.roles.#{new_role}")}."
     else

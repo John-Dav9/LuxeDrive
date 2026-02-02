@@ -13,9 +13,7 @@ class Owner::DashboardController < Owner::BaseController
                                        .includes(:car)
                                        .where(status: %w[accepted completed])
     @total_revenue = bookings_for_revenue.sum do |booking|
-      days = (booking.checkout_date - booking.checkin_date).to_i
-      days = 1 if days < 1
-      booking.car.price * days
+      booking.car.price * booking.number_of_days
     end
 
     @recent_cars = current_user.cars.order(created_at: :desc).limit(5)

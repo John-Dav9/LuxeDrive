@@ -20,7 +20,9 @@ class Owner::CarsController < Owner::BaseController
   end
 
   def destroy
-    if @car.destroy
+    if @car.bookings.where(status: %w[pending_payment pending accepted]).any?
+      redirect_to owner_cars_path, alert: "Impossible de supprimer une voiture avec des réservations actives."
+    elsif @car.destroy
       redirect_to owner_cars_path, notice: "Voiture supprimée avec succès."
     else
       redirect_to owner_cars_path, alert: "Erreur lors de la suppression."
