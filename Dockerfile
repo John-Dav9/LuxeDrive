@@ -42,6 +42,9 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
+# Precompile assets with a generated SECRET_KEY_BASE
+RUN SECRET_KEY_BASE=$(bundle exec rails secret) ./bin/rails assets:precompile
+
 
 
 
