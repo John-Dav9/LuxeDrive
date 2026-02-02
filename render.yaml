@@ -9,6 +9,7 @@ services:
     name: luxedrive
     runtime: docker
     plan: free
+    dockerCommand: ./bin/render-build.sh && ./bin/rails server -b 0.0.0.0
     envVars:
       - key: DATABASE_URL
         fromDatabase:
