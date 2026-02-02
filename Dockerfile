@@ -42,7 +42,13 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Assets will be precompiled by Render with proper environment variables
+# Accept RAILS_MASTER_KEY as build argument and precompile assets
+ARG RAILS_MASTER_KEY
+RUN if [ -n "$RAILS_MASTER_KEY" ]; then \
+      RAILS_MASTER_KEY=$RAILS_MASTER_KEY ./bin/rails assets:precompile; \
+    else \
+      echo "Skipping assets precompilation - RAILS_MASTER_KEY not provided"; \
+    fi
 
 
 
