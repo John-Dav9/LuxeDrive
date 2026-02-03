@@ -1,0 +1,38 @@
+<h1 class="mb-4">Personnaliser le contrat prestataire</h1>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <%= form_with model: @contract, url: super_admin_contract_setting_path, method: :patch, local: true do |f| %>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <%= f.label :company_name, "Raison sociale", class: "form-label" %>
+          <%= f.text_field :company_name, class: "form-control" %>
+        </div>
+        <div class="col-md-6">
+          <%= f.label :company_email, "Email", class: "form-label" %>
+          <%= f.email_field :company_email, class: "form-control" %>
+        </div>
+        <div class="col-md-12">
+          <%= f.label :company_address, "Adresse", class: "form-label" %>
+          <%= f.text_field :company_address, class: "form-control" %>
+        </div>
+        <div class="col-md-6">
+          <%= f.label :company_vat, "SIREN / TVA", class: "form-label" %>
+          <%= f.text_field :company_vat, class: "form-control" %>
+        </div>
+        <div class="col-md-6">
+          <%= f.label :contract_version, "Version du contrat", class: "form-label" %>
+          <%= f.text_field :contract_version, class: "form-control" %>
+        </div>
+        <div class="col-md-12">
+          <%= f.label :jurisdiction, "Droit applicable / juridiction", class: "form-label" %>
+          <%= f.text_field :jurisdiction, class: "form-control" %>
+        </div>
+      </div>
+      <div class="mt-4">
+        <%= f.submit "Enregistrer", class: "btn btn-primary" %>
+        <%= link_to "Voir le contrat", provider_contract_path, class: "btn btn-outline-secondary ms-2", target: "_blank", rel: "noopener" %>
+      </div>
+    <% end %>
+  </div>
+</div>

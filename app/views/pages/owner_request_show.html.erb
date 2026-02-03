@@ -1,0 +1,34 @@
+<div class="container my-5 owner-request-page">
+  <div class="owner-request-hero mb-4">
+    <h1 class="mb-2">Mon dossier prestataire</h1>
+    <p class="text-muted mb-0">Suivez l’avancement de votre dossier et mettez-le à jour si nécessaire.</p>
+  </div>
+
+  <div class="alert alert-info owner-request-status">
+    Statut actuel : <strong><%= @owner_request.status.humanize %></strong>
+  </div>
+
+  <% if @owner_request.rejected? %>
+    <div class="alert alert-danger owner-request-alert">
+      <strong>Motif du refus :</strong> <%= @owner_request.rejection_reason.presence || "Non précisé" %>
+    </div>
+  <% elsif @owner_request.needs_contract? %>
+    <div class="alert alert-warning owner-request-alert">
+      Merci de signer le contrat et de le renvoyer pour finaliser votre dossier.
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= link_to "Voir le contrat prestataire", provider_contract_path, class: "btn btn-outline-primary", target: "_blank", rel: "noopener" %>
+  </div>
+
+  <% if @owner_request.incomplete? %>
+    <div class="alert alert-warning owner-request-alert">
+      <strong>Documents manquants :</strong> <%= @owner_request.missing_documents.join(", ") %>
+    </div>
+  <% end %>
+
+  <% if @owner_request.pending? || @owner_request.needs_contract? || @owner_request.rejected? %>
+    <%= link_to "Modifier mon dossier", edit_owner_request_path, class: "btn btn-primary" %>
+  <% end %>
+</div>

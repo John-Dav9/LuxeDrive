@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
   
   # Page d'accueil personnalisée
   root to: "pages#home"
@@ -23,6 +23,15 @@ Rails.application.routes.draw do
       delete "photos/:photo_id", to: "cars#destroy_photo", as: :photo
     end
     resources :bookings, only: [:index]
+    resource :contract_setting, only: [:edit, :update]
+    resources :owner_requests, only: [:index, :show] do
+      member do
+        patch :approve
+        patch :reject
+        patch :needs_contract
+        post :send_contract
+      end
+    end
   end
 
   # Owner
@@ -32,6 +41,8 @@ Rails.application.routes.draw do
       delete "photos/:photo_id", to: "cars#destroy_photo", as: :photo
     end
     resources :bookings, only: [:index]
+    get "documents", to: "documents#index"
+    get "documents/download_all", to: "documents#download_all", as: :documents_download_all
   end
 
   # Voitures avec réservations imbriquées
@@ -67,6 +78,8 @@ Rails.application.routes.draw do
       patch :read
     end
   end
+  get "contrat_prestataire", to: "contracts#provider", as: :provider_contract
+  resource :owner_request, only: [:new, :create, :show, :edit, :update]
   # Legacy owner pages (kept for compatibility via redirect in controller)
   get 'owner_dashboard', to: 'pages#owner_dashboard'
   get 'about', to: 'pages#about'

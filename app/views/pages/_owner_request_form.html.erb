@@ -1,0 +1,374 @@
+<% countries = [
+  ["Afghanistan", "AF"],
+  ["Afrique du Sud", "ZA"],
+  ["Albanie", "AL"],
+  ["Algérie", "DZ"],
+  ["Allemagne", "DE"],
+  ["Andorre", "AD"],
+  ["Angola", "AO"],
+  ["Anguilla", "AI"],
+  ["Antarctique", "AQ"],
+  ["Antigua-et-Barbuda", "AG"],
+  ["Arabie saoudite", "SA"],
+  ["Argentine", "AR"],
+  ["Arménie", "AM"],
+  ["Aruba", "AW"],
+  ["Australie", "AU"],
+  ["Autriche", "AT"],
+  ["Azerbaïdjan", "AZ"],
+  ["Bahamas", "BS"],
+  ["Bahreïn", "BH"],
+  ["Bangladesh", "BD"],
+  ["Barbade", "BB"],
+  ["Belgique", "BE"],
+  ["Belize", "BZ"],
+  ["Bénin", "BJ"],
+  ["Bermudes", "BM"],
+  ["Bhoutan", "BT"],
+  ["Biélorussie", "BY"],
+  ["Bolivie", "BO"],
+  ["Bosnie-Herzégovine", "BA"],
+  ["Botswana", "BW"],
+  ["Brésil", "BR"],
+  ["Brunei", "BN"],
+  ["Bulgarie", "BG"],
+  ["Burkina Faso", "BF"],
+  ["Burundi", "BI"],
+  ["Cambodge", "KH"],
+  ["Cameroun", "CM"],
+  ["Canada", "CA"],
+  ["Cap-Vert", "CV"],
+  ["Chili", "CL"],
+  ["Chine", "CN"],
+  ["Chypre", "CY"],
+  ["Colombie", "CO"],
+  ["Comores", "KM"],
+  ["Congo", "CG"],
+  ["Congo (RDC)", "CD"],
+  ["Corée du Nord", "KP"],
+  ["Corée du Sud", "KR"],
+  ["Costa Rica", "CR"],
+  ["Côte d’Ivoire", "CI"],
+  ["Croatie", "HR"],
+  ["Cuba", "CU"],
+  ["Curaçao", "CW"],
+  ["Danemark", "DK"],
+  ["Djibouti", "DJ"],
+  ["Dominique", "DM"],
+  ["Égypte", "EG"],
+  ["Émirats arabes unis", "AE"],
+  ["Équateur", "EC"],
+  ["Érythrée", "ER"],
+  ["Espagne", "ES"],
+  ["Estonie", "EE"],
+  ["Eswatini", "SZ"],
+  ["États-Unis", "US"],
+  ["Éthiopie", "ET"],
+  ["Fidji", "FJ"],
+  ["Finlande", "FI"],
+  ["France", "FR"],
+  ["Gabon", "GA"],
+  ["Gambie", "GM"],
+  ["Géorgie", "GE"],
+  ["Ghana", "GH"],
+  ["Gibraltar", "GI"],
+  ["Grèce", "GR"],
+  ["Grenade", "GD"],
+  ["Groenland", "GL"],
+  ["Guadeloupe", "GP"],
+  ["Guam", "GU"],
+  ["Guatemala", "GT"],
+  ["Guernesey", "GG"],
+  ["Guinée", "GN"],
+  ["Guinée équatoriale", "GQ"],
+  ["Guinée-Bissau", "GW"],
+  ["Guyana", "GY"],
+  ["Guyane française", "GF"],
+  ["Haïti", "HT"],
+  ["Honduras", "HN"],
+  ["Hong Kong", "HK"],
+  ["Hongrie", "HU"],
+  ["Île Bouvet", "BV"],
+  ["Île de Man", "IM"],
+  ["Île de Noël", "CX"],
+  ["Île Norfolk", "NF"],
+  ["Îles Caïmans", "KY"],
+  ["Îles Cocos", "CC"],
+  ["Îles Cook", "CK"],
+  ["Îles Féroé", "FO"],
+  ["Îles Malouines", "FK"],
+  ["Îles Mariannes du Nord", "MP"],
+  ["Îles Marshall", "MH"],
+  ["Îles Mineures éloignées des États-Unis", "UM"],
+  ["Îles Salomon", "SB"],
+  ["Îles Turques-et-Caïques", "TC"],
+  ["Îles Vierges britanniques", "VG"],
+  ["Îles Vierges des États-Unis", "VI"],
+  ["Inde", "IN"],
+  ["Indonésie", "ID"],
+  ["Irak", "IQ"],
+  ["Iran", "IR"],
+  ["Irlande", "IE"],
+  ["Islande", "IS"],
+  ["Israël", "IL"],
+  ["Italie", "IT"],
+  ["Jamaïque", "JM"],
+  ["Japon", "JP"],
+  ["Jersey", "JE"],
+  ["Jordanie", "JO"],
+  ["Kazakhstan", "KZ"],
+  ["Kenya", "KE"],
+  ["Kirghizistan", "KG"],
+  ["Kiribati", "KI"],
+  ["Koweït", "KW"],
+  ["La Réunion", "RE"],
+  ["Laos", "LA"],
+  ["Lesotho", "LS"],
+  ["Lettonie", "LV"],
+  ["Liban", "LB"],
+  ["Liberia", "LR"],
+  ["Libye", "LY"],
+  ["Liechtenstein", "LI"],
+  ["Lituanie", "LT"],
+  ["Luxembourg", "LU"],
+  ["Macédoine du Nord", "MK"],
+  ["Madagascar", "MG"],
+  ["Malaisie", "MY"],
+  ["Malawi", "MW"],
+  ["Maldives", "MV"],
+  ["Mali", "ML"],
+  ["Malte", "MT"],
+  ["Maroc", "MA"],
+  ["Martinique", "MQ"],
+  ["Maurice", "MU"],
+  ["Mauritanie", "MR"],
+  ["Mayotte", "YT"],
+  ["Mexique", "MX"],
+  ["Micronésie", "FM"],
+  ["Moldavie", "MD"],
+  ["Monaco", "MC"],
+  ["Mongolie", "MN"],
+  ["Monténégro", "ME"],
+  ["Montserrat", "MS"],
+  ["Mozambique", "MZ"],
+  ["Myanmar", "MM"],
+  ["Namibie", "NA"],
+  ["Nauru", "NR"],
+  ["Népal", "NP"],
+  ["Nicaragua", "NI"],
+  ["Niger", "NE"],
+  ["Nigeria", "NG"],
+  ["Niue", "NU"],
+  ["Norvège", "NO"],
+  ["Nouvelle-Calédonie", "NC"],
+  ["Nouvelle-Zélande", "NZ"],
+  ["Oman", "OM"],
+  ["Ouganda", "UG"],
+  ["Ouzbékistan", "UZ"],
+  ["Pakistan", "PK"],
+  ["Palaos", "PW"],
+  ["Palestine", "PS"],
+  ["Panama", "PA"],
+  ["Papouasie-Nouvelle-Guinée", "PG"],
+  ["Paraguay", "PY"],
+  ["Pays-Bas", "NL"],
+  ["Pérou", "PE"],
+  ["Philippines", "PH"],
+  ["Pologne", "PL"],
+  ["Polynésie française", "PF"],
+  ["Porto Rico", "PR"],
+  ["Portugal", "PT"],
+  ["Qatar", "QA"],
+  ["République centrafricaine", "CF"],
+  ["République dominicaine", "DO"],
+  ["République tchèque", "CZ"],
+  ["Roumanie", "RO"],
+  ["Royaume-Uni", "GB"],
+  ["Russie", "RU"],
+  ["Rwanda", "RW"],
+  ["Sahara occidental", "EH"],
+  ["Saint-Barthélemy", "BL"],
+  ["Sainte-Hélène", "SH"],
+  ["Sainte-Lucie", "LC"],
+  ["Saint-Kitts-et-Nevis", "KN"],
+  ["Saint-Marin", "SM"],
+  ["Saint-Martin (partie française)", "MF"],
+  ["Saint-Pierre-et-Miquelon", "PM"],
+  ["Saint-Vincent-et-les-Grenadines", "VC"],
+  ["Salvador", "SV"],
+  ["Samoa", "WS"],
+  ["Samoa américaines", "AS"],
+  ["Sao Tomé-et-Principe", "ST"],
+  ["Sénégal", "SN"],
+  ["Serbie", "RS"],
+  ["Seychelles", "SC"],
+  ["Sierra Leone", "SL"],
+  ["Singapour", "SG"],
+  ["Slovaquie", "SK"],
+  ["Slovénie", "SI"],
+  ["Somalie", "SO"],
+  ["Soudan", "SD"],
+  ["Soudan du Sud", "SS"],
+  ["Sri Lanka", "LK"],
+  ["Suède", "SE"],
+  ["Suisse", "CH"],
+  ["Suriname", "SR"],
+  ["Svalbard et Jan Mayen", "SJ"],
+  ["Syrie", "SY"],
+  ["Tadjikistan", "TJ"],
+  ["Taïwan", "TW"],
+  ["Tanzanie", "TZ"],
+  ["Tchad", "TD"],
+  ["Thaïlande", "TH"],
+  ["Timor oriental", "TL"],
+  ["Togo", "TG"],
+  ["Tokelau", "TK"],
+  ["Tonga", "TO"],
+  ["Trinité-et-Tobago", "TT"],
+  ["Tunisie", "TN"],
+  ["Turkménistan", "TM"],
+  ["Turquie", "TR"],
+  ["Tuvalu", "TV"],
+  ["Ukraine", "UA"],
+  ["Uruguay", "UY"],
+  ["Vanuatu", "VU"],
+  ["Vatican", "VA"],
+  ["Venezuela", "VE"],
+  ["Viêt Nam", "VN"],
+  ["Wallis-et-Futuna", "WF"],
+  ["Yémen", "YE"],
+  ["Zambie", "ZM"],
+  ["Zimbabwe", "ZW"]
+] %>
+
+<% country_options = countries.map { |name, code| ["#{flag_emoji(code)} #{name}", code] } %>
+
+<%= simple_form_for @owner_request, url: @owner_request.persisted? ? owner_request_path : owner_request_path do |f| %>
+  <%= f.error_notification %>
+  <div class="row g-3">
+    <div class="col-md-3">
+      <%= f.input :civility, collection: ["M.", "Mme", "Mx"], prompt: "Choisir", label: "Civilité" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :first_name, label: "Prénom" %>
+    </div>
+    <div class="col-md-5">
+      <%= f.input :last_name, label: "Nom" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :birth_date, as: :date, label: "Date de naissance" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :birth_city, label: "Lieu de naissance (ville)" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :birth_country, as: :select, collection: country_options, prompt: "Choisir", label: "Pays de naissance" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :nationality, label: "Nationalité" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :gender, collection: ["Femme", "Homme", "Autre"], prompt: "Choisir", label: "Sexe" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :phone, label: "Téléphone" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :residence_country, as: :select, label: "Pays de résidence", collection: country_options, prompt: "Choisir" %>
+    </div>
+    <div class="col-md-8">
+      <%= f.input :address_line1, label: "Adresse (ligne 1)" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :address_line2, label: "Adresse (ligne 2 - optionnel)" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :postal_code, label: "Code postal" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :city, label: "Ville" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.input :country, as: :select, label: "Pays (adresse)", collection: country_options, prompt: "Choisir" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= f.input :id_document_type, collection: ["CNI", "Passeport", "Titre de séjour"], prompt: "Choisir" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :id_number, label: "Numéro de document" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :id_expires_on, as: :date, label: "Expiration pièce d'identité" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :driver_license_number, label: "Numéro de permis" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :driver_license_expires_on, as: :date, label: "Expiration permis" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :proof_of_address_issued_on, as: :date, label: "Date justificatif de domicile" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :bank_holder_name, label: "Titulaire du compte" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :bank_iban, label: "IBAN" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :bank_bic, label: "BIC/SWIFT (optionnel)" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= f.input :work_permit_required, as: :boolean, label: "Permis de travail requis ?" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :work_permit_expires_on, as: :date, label: "Expiration permis de travail" %>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <%= f.input :id_document, as: :file, label: "Pièce d'identité" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :driver_license, as: :file, label: "Permis de conduire" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :proof_of_address, as: :file, label: "Justificatif de domicile" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :bank_rib, as: :file, label: "RIB / Relevé bancaire" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :selfie, as: :file, label: "Photo d'identification (selfie)" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :work_permit, as: :file, label: "Permis de travail (si nécessaire)" %>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <%= f.input :signature_method, collection: [["Upload contrat signé", "manual_upload"], ["E-signature (case à cocher)", "e_signature"]], prompt: "Choisir la méthode" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :signed_contract, as: :file, label: "Contrat signé (PDF)" %>
+    </div>
+  </div>
+
+  <div class="alert alert-light mt-3">
+    <p class="mb-2"><strong>Contrat prestataire :</strong> <a href="<%= provider_contract_path %>" target="_blank" rel="noopener">Voir le modèle</a></p>
+    <%= f.input :contract_accepted, as: :boolean, label: "J'accepte le contrat prestataire et les conditions d'utilisation" %>
+    <%= f.input :cgu_accepted, as: :boolean, label: raw("J'accepte les <a href='#{legal_path}' target='_blank' rel='noopener'>CGU</a>") %>
+  </div>
+
+  <div class="mt-4">
+    <%= f.button :submit, class: "btn btn-primary" %>
+  </div>
+<% end %>

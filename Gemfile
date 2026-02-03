@@ -44,6 +44,8 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "kaminari"
 gem "stripe"
+gem "rubyzip"
+gem "phonelib"
 
 group :development, :test do
   gem "dotenv-rails"

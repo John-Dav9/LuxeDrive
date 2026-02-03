@@ -13,7 +13,10 @@ super_admin = User.create!(
   last_name: "Admin", 
   email: "admin@luxedrive.com", 
   password: "password123",
-  role: :super_admin
+  role: :super_admin,
+  phone: "+33600000001",
+  phone_country: "FR",
+  cgu_accepted: true
 )
 puts "✅ Super Admin créé: #{super_admin.email} / password123"
 
@@ -23,7 +26,10 @@ john = User.create!(
   last_name: "David", 
   email: "john@mail.com", 
   password: "password",
-  role: :admin_client
+  role: :admin_client,
+  phone: "+33600000002",
+  phone_country: "FR",
+  cgu_accepted: true
 )
 
 clara = User.create!(
@@ -31,7 +37,10 @@ clara = User.create!(
   last_name: "Barbé", 
   email: "clarabb@mail.com", 
   password: "password",
-  role: :admin_client
+  role: :admin_client,
+  phone: "+33600000003",
+  phone_country: "FR",
+  cgu_accepted: true
 )
 
 # Visiteurs (clients)
@@ -40,7 +49,10 @@ visitor1 = User.create!(
   last_name: "Dupont", 
   email: "marie@mail.com", 
   password: "password",
-  role: :visitor
+  role: :visitor,
+  phone: "+33600000004",
+  phone_country: "FR",
+  cgu_accepted: true
 )
 
 visitor2 = User.create!(
@@ -48,7 +60,10 @@ visitor2 = User.create!(
   last_name: "Martin", 
   email: "pierre@mail.com", 
   password: "password",
-  role: :visitor
+  role: :visitor,
+  phone: "+33600000005",
+  phone_country: "FR",
+  cgu_accepted: true
 )
 
 puts "✅ #{User.count} utilisateurs créés"

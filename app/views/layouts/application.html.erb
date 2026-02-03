@@ -31,9 +31,13 @@
 
               
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto">
-          <% if user_signed_in? %>
+      <% if user_signed_in? %>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto">
             <!-- Menu spécifique selon le rôle -->
             <% if current_user.super_admin? %>
               <li class="nav-item">
@@ -44,6 +48,16 @@
             <li class="nav-item">
               <%= link_to "Accueil", root_path, class: "nav-link" %>
             </li>
+
+            <% if current_user.visitor? %>
+              <li class="nav-item">
+                <% if current_user.owner_request.present? %>
+                  <%= link_to "Mon dossier prestataire", owner_request_path, class: "nav-link" %>
+                <% else %>
+                  <%= link_to "Devenir prestataire", new_owner_request_path, class: "nav-link" %>
+                <% end %>
+              </li>
+            <% end %>
             
             <% if current_user.admin? %>
               <li class="nav-item">
@@ -58,28 +72,25 @@
             <% end %>
 
             <li class="nav-item dropdown">
-              <%= image_tag "T02NE0241-U07Q4PW5W2K-b9cf4c0c8442-512.jpg", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+              <% if current_user.super_admin? %>
+                <%= image_tag "T02NE0241-U07Q4PW5W2K-b9cf4c0c8442-512.jpg", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false, alt: "Super admin" %>
+              <% else %>
+                <% initials = "#{current_user.first_name&.first}#{current_user.last_name&.first}".upcase %>
+                <span class="avatar avatar-initials dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= initials %></span>
+              <% end %>
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <div class="dropdown-header">
                   <strong><%= current_user.full_name %></strong><br>
                   <small class="text-muted"><%= current_user.email %></small>
                 </div>
                 <div class="dropdown-divider"></div>
-                
+
                 <% if current_user.super_admin? %>
                   <%= link_to "🔧 Panneau Super Admin", super_admin_root_path, class: "dropdown-item" %>
                   <div class="dropdown-divider"></div>
                 <% end %>
-                
-                <% if current_user.admin? %>
-                  <%= link_to "➕ Ajouter une voiture", new_car_path, class: "dropdown-item" %>
-                  <%= link_to "📊 Tableau de bord propriétaire", owner_root_path, class: "dropdown-item" %>
-                  <%= link_to "📊 Réservations reçues", owner_bookings_path, class: "dropdown-item" %>
-                  <div class="dropdown-divider"></div>
-                <% end %>
-                
+
                 <%= link_to "🔔 Notifications", notifications_path, class: "dropdown-item" %>
-                <div class="dropdown-divider"></div>
                 <%= link_to "📅 Mes réservations", dashboard_path, class: "dropdown-item" %>
                 <div class="dropdown-divider"></div>
                 <%= link_to "Déconnexion", destroy_user_session_path, class: "dropdown-item", data: {turbo_method: :delete} %>
@@ -91,19 +102,14 @@
                 <span class="notif-badge d-none" id="notifBadge">0</span>
               <% end %>
             </li>
-          <% else %>
-            <li class="nav-item">
-              <%= link_to "Accueil", root_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Connexion", new_user_session_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Inscription", new_user_registration_path, class: "nav-link btn btn-primary text-white ms-2" %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+          </ul>
+        </div>
+      <% else %>
+        <div class="ms-auto d-flex align-items-center gap-2">
+          <%= link_to "Se connecter", new_user_session_path, class: "btn btn-outline-primary btn-sm" %>
+          <%= link_to "Inscription", new_user_registration_path, class: "btn btn-primary btn-sm text-white" %>
+        </div>
+      <% end %>
     </div>
   </div>
 

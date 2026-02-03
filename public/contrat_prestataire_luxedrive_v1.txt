@@ -1,0 +1,43 @@
+CONTRAT PRESTATAIRE - LUXEDRIVE (VERSION 1)
+
+Ce document est un modèle de contrat prestataire. Il doit être adapté et validé juridiquement
+avant usage en production.
+
+1. Parties
+Le présent contrat est conclu entre :
+- LuxeDrive (ci-après "la Plateforme")
+- Le Prestataire (ci-après "le Prestataire")
+
+2. Objet
+Le présent contrat encadre la mise à disposition de véhicules par le Prestataire via la plateforme LuxeDrive.
+
+3. Conditions d'éligibilité
+Le Prestataire déclare disposer des documents suivants :
+- Pièce d'identité valide
+- Permis de conduire valide
+- Justificatif de domicile
+- Coordonnées bancaires (IBAN)
+- Permis de travail si requis
+
+4. Obligations du Prestataire
+Le Prestataire s'engage à :
+- Fournir un véhicule conforme, assuré et en bon état
+- Maintenir des informations exactes et à jour
+- Respecter les obligations légales applicables
+
+5. Paiements
+Les paiements des locations sont effectués via la Plateforme. Les virements au Prestataire sont réalisés
+sur les coordonnées bancaires fournies.
+
+6. Confidentialité et données personnelles
+Les données sont traitées conformément au RGPD et à la politique de confidentialité de LuxeDrive.
+
+7. Durée et résiliation
+Le contrat est conclu pour une durée indéterminée et peut être résilié par chacune des parties
+dans les conditions prévues par les CGU.
+
+8. Loi applicable
+Le contrat est soumis au droit de l'Union Européenne et aux lois françaises applicables.
+
+Signatures
+La signature peut être réalisée via upload d'un exemplaire signé ou par acceptation électronique.

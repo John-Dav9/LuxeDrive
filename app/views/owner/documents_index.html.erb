@@ -1,0 +1,101 @@
+<div class="owner-documents-page">
+<div class="owner-documents-hero mb-4">
+  <h1 class="mb-2">Mes documents</h1>
+  <p class="text-muted mb-0">Retrouvez et téléchargez vos justificatifs à tout moment.</p>
+</div>
+
+<% if @owner_request.blank? %>
+  <div class="alert alert-warning">Aucun dossier prestataire trouvé.</div>
+<% else %>
+  <div class="card mb-3 owner-documents-card">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <div>
+        <strong>Dossier prestataire</strong>
+        <div class="text-muted">Téléchargez vos documents justificatifs.</div>
+      </div>
+      <%= link_to "Tout télécharger (ZIP)", owner_documents_download_all_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+
+  <div class="card owner-documents-card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Document</th>
+              <th>Statut</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pièce d'identité</td>
+              <td><%= @owner_request.id_document.attached? ? "Disponible" : "Manquant" %></td>
+              <td>
+                <% if @owner_request.id_document.attached? %>
+                  <%= link_to "Télécharger", rails_blob_path(@owner_request.id_document, disposition: "attachment"), class: "btn btn-sm btn-outline-primary" %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td>Permis de conduire</td>
+              <td><%= @owner_request.driver_license.attached? ? "Disponible" : "Manquant" %></td>
+              <td>
+                <% if @owner_request.driver_license.attached? %>
+                  <%= link_to "Télécharger", rails_blob_path(@owner_request.driver_license, disposition: "attachment"), class: "btn btn-sm btn-outline-primary" %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td>Justificatif de domicile</td>
+              <td><%= @owner_request.proof_of_address.attached? ? "Disponible" : "Manquant" %></td>
+              <td>
+                <% if @owner_request.proof_of_address.attached? %>
+                  <%= link_to "Télécharger", rails_blob_path(@owner_request.proof_of_address, disposition: "attachment"), class: "btn btn-sm btn-outline-primary" %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td>RIB / IBAN</td>
+              <td><%= @owner_request.bank_rib.attached? ? "Disponible" : "Manquant" %></td>
+              <td>
+                <% if @owner_request.bank_rib.attached? %>
+                  <%= link_to "Télécharger", rails_blob_path(@owner_request.bank_rib, disposition: "attachment"), class: "btn btn-sm btn-outline-primary" %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td>Selfie</td>
+              <td><%= @owner_request.selfie.attached? ? "Disponible" : "Manquant" %></td>
+              <td>
+                <% if @owner_request.selfie.attached? %>
+                  <%= link_to "Télécharger", rails_blob_path(@owner_request.selfie, disposition: "attachment"), class: "btn btn-sm btn-outline-primary" %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td>Permis de travail</td>
+              <td><%= @owner_request.work_permit&.attached? ? "Disponible" : "Manquant" %></td>
+              <td>
+                <% if @owner_request.work_permit&.attached? %>
+                  <%= link_to "Télécharger", rails_blob_path(@owner_request.work_permit, disposition: "attachment"), class: "btn btn-sm btn-outline-primary" %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td>Contrat signé</td>
+              <td><%= @owner_request.signed_contract&.attached? ? "Disponible" : "Manquant" %></td>
+              <td>
+                <% if @owner_request.signed_contract&.attached? %>
+                  <%= link_to "Télécharger", rails_blob_path(@owner_request.signed_contract, disposition: "attachment"), class: "btn btn-sm btn-outline-primary" %>
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>
+</div>

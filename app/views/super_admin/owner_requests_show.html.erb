@@ -1,0 +1,129 @@
+<div class="owner-requests-admin">
+<h1 class="mb-4">Dossier prestataire</h1>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5><%= @owner_request.user.full_name %></h5>
+    <p class="text-muted"><%= @owner_request.user.email %></p>
+    <span class="badge bg-secondary"><%= @owner_request.status.humanize %></span>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="mb-3">Informations</h5>
+    <div class="row g-3">
+      <div class="col-md-4"><strong>Civilité :</strong> <%= @owner_request.civility %></div>
+      <div class="col-md-4"><strong>Prénom :</strong> <%= @owner_request.first_name %></div>
+      <div class="col-md-4"><strong>Nom :</strong> <%= @owner_request.last_name %></div>
+      <div class="col-md-4"><strong>Téléphone :</strong> <%= @owner_request.phone %></div>
+      <div class="col-md-4"><strong>Naissance :</strong> <%= @owner_request.birth_date %></div>
+      <div class="col-md-4"><strong>Lieu de naissance :</strong> <%= @owner_request.birth_city %></div>
+      <div class="col-md-4"><strong>Pays de naissance :</strong> <%= @owner_request.birth_country %></div>
+      <div class="col-md-4"><strong>Nationalité :</strong> <%= @owner_request.nationality %></div>
+      <div class="col-md-4"><strong>Sexe :</strong> <%= @owner_request.gender %></div>
+      <div class="col-md-4"><strong>Adresse :</strong> <%= @owner_request.address_line1 %></div>
+      <div class="col-md-4"><strong>Complément :</strong> <%= @owner_request.address_line2 %></div>
+      <div class="col-md-4"><strong>Code postal :</strong> <%= @owner_request.postal_code %></div>
+      <div class="col-md-4"><strong>Ville :</strong> <%= @owner_request.city %></div>
+      <div class="col-md-4"><strong>Pays :</strong> <%= @owner_request.country %></div>
+      <div class="col-md-4"><strong>Document :</strong> <%= @owner_request.id_document_type %></div>
+      <div class="col-md-4"><strong>Numéro :</strong> <%= @owner_request.id_number %></div>
+      <div class="col-md-4"><strong>Expiration :</strong> <%= @owner_request.id_expires_on %></div>
+      <div class="col-md-4"><strong>Permis :</strong> <%= @owner_request.driver_license_number %></div>
+      <div class="col-md-4"><strong>Expiration permis :</strong> <%= @owner_request.driver_license_expires_on %></div>
+      <div class="col-md-4"><strong>Domicile :</strong> <%= @owner_request.proof_of_address_issued_on %></div>
+      <div class="col-md-4"><strong>Pays :</strong> <%= @owner_request.residence_country %></div>
+      <div class="col-md-4"><strong>IBAN :</strong> <%= @owner_request.bank_iban %></div>
+      <div class="col-md-4"><strong>BIC :</strong> <%= @owner_request.bank_bic %></div>
+      <div class="col-md-4"><strong>Signature :</strong> <%= @owner_request.signature_method.humanize %></div>
+      <div class="col-md-4"><strong>Contrat accepté :</strong> <%= @owner_request.contract_accepted? ? "Oui" : "Non" %></div>
+      <div class="col-md-4"><strong>Permis de travail requis :</strong> <%= @owner_request.work_permit_required? ? "Oui" : "Non" %></div>
+      <div class="col-md-4"><strong>Expiration permis de travail :</strong> <%= @owner_request.work_permit_expires_on %></div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="mb-3">Documents</h5>
+    <ul>
+      <li>
+        Pièce d'identité :
+        <%= @owner_request.id_document.attached? ? link_to("Voir", url_for(@owner_request.id_document), target: "_blank") : "Non fourni" %>
+      </li>
+      <li>
+        Permis de conduire :
+        <%= @owner_request.driver_license.attached? ? link_to("Voir", url_for(@owner_request.driver_license), target: "_blank") : "Non fourni" %>
+      </li>
+      <li>
+        Justificatif domicile :
+        <%= @owner_request.proof_of_address.attached? ? link_to("Voir", url_for(@owner_request.proof_of_address), target: "_blank") : "Non fourni" %>
+      </li>
+      <li>
+        RIB / IBAN :
+        <%= @owner_request.bank_rib.attached? ? link_to("Voir", url_for(@owner_request.bank_rib), target: "_blank") : "Non fourni" %>
+      </li>
+      <li>
+        Selfie :
+        <%= @owner_request.selfie.attached? ? link_to("Voir", url_for(@owner_request.selfie), target: "_blank") : "Non fourni" %>
+      </li>
+      <li>
+        Permis de travail :
+        <%= @owner_request.work_permit&.attached? ? link_to("Voir", url_for(@owner_request.work_permit), target: "_blank") : "Non fourni" %>
+      </li>
+      <li>
+        Contrat signé :
+        <%= @owner_request.signed_contract&.attached? ? link_to("Voir", url_for(@owner_request.signed_contract), target: "_blank") : "Non fourni" %>
+      </li>
+    </ul>
+    <% if @owner_request.incomplete? %>
+      <div class="alert alert-warning mt-3">
+        Documents manquants : <%= @owner_request.missing_documents.join(", ") %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="mb-3">Actions</h5>
+    <%= form_with url: approve_super_admin_owner_request_path(@owner_request), method: :patch, local: true, class: "d-inline" do |f| %>
+      <%= f.hidden_field :note, value: "approved" %>
+      <%= f.submit "Approuver", class: "btn btn-success" %>
+    <% end %>
+    <%= form_with url: needs_contract_super_admin_owner_request_path(@owner_request), method: :patch, local: true, class: "d-inline ms-2" do |f| %>
+      <%= f.hidden_field :note, value: "needs_contract" %>
+      <%= f.submit "Demander contrat", class: "btn btn-warning" %>
+    <% end %>
+    <%= form_with url: send_contract_super_admin_owner_request_path(@owner_request), method: :post, local: true, class: "d-inline ms-2" do |f| %>
+      <%= f.text_area :message, placeholder: "Message personnalisé (optionnel)", class: "form-control d-inline-block", rows: 1, style: "width: 260px;" %>
+      <%= f.submit "Envoyer le contrat", class: "btn btn-outline-secondary ms-2" %>
+    <% end %>
+    <%= form_with url: reject_super_admin_owner_request_path(@owner_request), method: :patch, local: true, class: "d-inline ms-2" do |f| %>
+      <%= f.text_field :rejection_reason, placeholder: "Motif du refus", class: "form-control d-inline-block", style: "width: 240px;" %>
+      <%= f.submit "Refuser", class: "btn btn-danger ms-2" %>
+    <% end %>
+  </div>
+  <div class="card-body">
+    <%= link_to "Voir le contrat prestataire", provider_contract_path, target: "_blank", rel: "noopener" %>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="mb-3">Historique</h5>
+    <ul class="list-group">
+      <% @owner_request.owner_request_events.order(created_at: :desc).each do |event| %>
+        <li class="list-group-item">
+          <strong><%= event.action %></strong>
+          <span class="text-muted">(<%= l(event.created_at, format: :short) %>)</span>
+          <% if event.note.present? %>
+            - <%= event.note %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+</div>

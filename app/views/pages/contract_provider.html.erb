@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contrat Prestataire - LuxeDrive</title>
+    <style>
+      :root {
+        --ink: #0f172a;
+        --muted: #64748b;
+        --brand: #2563eb;
+        --paper: #f8fafc;
+        --border: #e2e8f0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Work Sans", "Helvetica", sans-serif;
+        color: var(--ink);
+        background: #eef2f7;
+        line-height: 1.6;
+      }
+
+      .page {
+        max-width: 860px;
+        margin: 48px auto;
+        background: white;
+        border-radius: 18px;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+
+      .header {
+        background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 45%, #0ea5e9 100%);
+        color: white;
+        padding: 32px 40px;
+      }
+
+      .header h1 {
+        margin: 0 0 6px;
+        font-size: 28px;
+        font-weight: 800;
+      }
+
+      .header p {
+        margin: 0;
+        opacity: 0.9;
+      }
+
+      .content {
+        padding: 32px 40px 40px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(37, 99, 235, 0.1);
+        color: var(--brand);
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        font-size: 18px;
+        margin: 24px 0 8px;
+      }
+
+      p {
+        margin: 0 0 10px;
+        color: var(--ink);
+      }
+
+      ul {
+        margin: 0 0 12px 18px;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 6px;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .section {
+        padding: 16px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .section:last-child {
+        border-bottom: 0;
+      }
+
+      .signatures {
+        margin-top: 24px;
+        padding: 16px;
+        border: 1px dashed var(--border);
+        border-radius: 12px;
+        background: var(--paper);
+      }
+
+      .signatures .row {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .signature-box {
+        flex: 1;
+        min-width: 240px;
+      }
+
+      .signature-line {
+        height: 40px;
+        border-bottom: 1px solid var(--border);
+        margin-top: 24px;
+      }
+
+      .footer {
+        text-align: center;
+        font-size: 12px;
+        color: var(--muted);
+        padding: 16px 40px 28px;
+      }
+
+      @media print {
+        body {
+          background: #ffffff;
+        }
+
+        .page {
+          margin: 0;
+          border: 0;
+          box-shadow: none;
+          border-radius: 0;
+        }
+
+        .header {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="header">
+        <h1>Contrat de Prestation de Services</h1>
+        <p>Mise à disposition & gestion de véhicules · LuxeDrive – Version <%= @contract.contract_version %></p>
+      </div>
+
+      <div class="content">
+        <span class="badge">Version <%= @contract.contract_version %> · UE</span>
+
+        <div class="section">
+          <p class="muted">⚠️ Modèle contractuel – à valider juridiquement avant mise en production.</p>
+        </div>
+
+        <div class="section">
+          <h2>Informations Société</h2>
+          <p><strong>Raison sociale :</strong> <%= @contract.company_name %></p>
+          <p><strong>Adresse :</strong> <%= @contract.company_address %></p>
+          <p><strong>SIREN / TVA :</strong> <%= @contract.company_vat %></p>
+          <p><strong>Email :</strong> <%= @contract.company_email %></p>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 1 – PARTIES</h2>
+          <p>Entre :</p>
+          <ul>
+            <li>LuxeDrive, plateforme numérique de mise en relation et de gestion de services de location de véhicules (ci-après « LuxeDrive » ou « la Plateforme »)</li>
+            <li>Le Prestataire, personne physique ou morale mettant à disposition un ou plusieurs véhicules (ci-après « le Prestataire »).</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 2 – NATURE DU CONTRAT & RÔLE DES PARTIES</h2>
+          <ul>
+            <li>Le présent contrat est un contrat de prestation de services indépendant.</li>
+            <li>LuxeDrive agit en qualité d’intermédiaire technique et commercial.</li>
+            <li>Le Prestataire agit en qualité de loueur indépendant.</li>
+            <li>Aucune relation de salariat, mandat, franchise ou société ne peut être déduite du présent contrat.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 3 – OBJET DU CONTRAT</h2>
+          <p>Le Prestataire confie à LuxeDrive :</p>
+          <ul>
+            <li>la diffusion de ses annonces</li>
+            <li>la gestion des réservations</li>
+            <li>la centralisation des paiements</li>
+            <li>la mise à disposition d’outils de gestion et de suivi</li>
+          </ul>
+          <p>👉 La propriété, la garde juridique et la responsabilité principale du véhicule demeurent chez le Prestataire.</p>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 4 – OBLIGATIONS DU PRESTATAIRE</h2>
+          <p>Le Prestataire s’engage à :</p>
+          <ul>
+            <li>Mettre à disposition un véhicule conforme à la législation, assuré pour la location, entretenu et en état de fonctionnement</li>
+            <li>Fournir des informations exactes et à jour</li>
+            <li>Assumer les coûts liés au véhicule, les sinistres, infractions et litiges clients, ainsi que les obligations fiscales et sociales</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 5 – OBLIGATIONS DE LUXEDRIVE</h2>
+          <p>LuxeDrive s’engage à :</p>
+          <ul>
+            <li>Mettre à disposition une plateforme fonctionnelle permettant la publication des annonces, la gestion des réservations et le suivi des paiements</li>
+            <li>Encaisser les paiements des clients et reverser les sommes dues au Prestataire selon les modalités prévues</li>
+            <li>Fournir un support raisonnable en cas de litige client, sinistre déclaré ou problème technique</li>
+            <li>Assurer la sécurité des données et la conformité RGPD de la Plateforme</li>
+          </ul>
+          <p>👉 LuxeDrive est tenue à une obligation de moyens, et non de résultat.</p>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 6 – TARIFICATION, COMMISSIONS ET TRANSPARENCE</h2>
+          <ul>
+            <li>Les tarifs sont fixés par le Prestataire, sous validation de LuxeDrive.</li>
+            <li>LuxeDrive perçoit une commission clairement communiquée et acceptée.</li>
+            <li>Les reversements sont effectués selon une périodicité définie, après déduction des commissions et frais applicables.</li>
+            <li>LuxeDrive peut retenir temporairement des fonds uniquement en cas de litige, sinistre ou obligation légale.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 7 – RESPONSABILITÉS CROISÉES</h2>
+          <p><strong>7.1 Responsabilité du Prestataire</strong></p>
+          <p>Le Prestataire reste responsable du véhicule, de son utilisation, et des dommages causés aux tiers.</p>
+          <p><strong>7.2 Responsabilité de LuxeDrive</strong></p>
+          <p>LuxeDrive est responsable du bon fonctionnement de la Plateforme, du traitement des paiements, et de la sécurité des données.</p>
+          <p><strong>7.3 Limitation de responsabilité</strong></p>
+          <p>La responsabilité de LuxeDrive est strictement limitée aux dommages directs, à l’exclusion de tout dommage indirect (perte de chiffre d’affaires, manque à gagner, etc.).</p>
+          <p>👉 Le plafond de responsabilité est limité aux commissions perçues sur les six derniers mois, sauf faute lourde.</p>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 8 – ASSURANCE</h2>
+          <ul>
+            <li>Le Prestataire doit maintenir une assurance valide couvrant la location.</li>
+            <li>LuxeDrive déclare disposer d’une assurance couvrant son activité de plateforme numérique.</li>
+            <li>Chaque Partie demeure responsable de sa propre couverture assurantielle.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 9 – INDEMNISATION</h2>
+          <ul>
+            <li>Le Prestataire s’engage à indemniser LuxeDrive en cas de réclamation liée au véhicule ou à un manquement du Prestataire.</li>
+            <li>LuxeDrive s’engage à indemniser le Prestataire en cas de préjudice résultant d’une faute avérée de la Plateforme ou d’un dysfonctionnement grave imputable à LuxeDrive.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 10 – SUSPENSION & RÉSILIATION</h2>
+          <p><strong>Suspension</strong></p>
+          <p>LuxeDrive peut suspendre un compte en cas de non-conformité, risque juridique ou sécuritaire, ou plainte client sérieuse.</p>
+          <p><strong>Résiliation</strong></p>
+          <p>Chaque Partie peut résilier le contrat. Les locations en cours doivent être honorées. Aucune indemnité abusive ne peut être réclamée.</p>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 11 – CONFIDENTIALITÉ & DONNÉES</h2>
+          <p>Les Parties s’engagent à la confidentialité. Les données sont traitées conformément au RGPD. Chaque Partie est responsable de ses obligations légales.</p>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 12 – DROIT APPLICABLE & LITIGES</h2>
+          <p><%= @contract.jurisdiction %>. Tentative de règlement amiable obligatoire avant toute action judiciaire.</p>
+        </div>
+
+        <div class="section">
+          <h2>ARTICLE 13 – ACCEPTATION ÉLECTRONIQUE</h2>
+          <p>L’acceptation via la Plateforme vaut signature électronique.</p>
+        </div>
+
+        <div class="signatures">
+          <p class="muted">Signature manuscrite ou acceptation électronique via la plateforme.</p>
+          <div class="row">
+            <div class="signature-box">
+              <p><strong>Pour LuxeDrive</strong></p>
+              <div class="signature-line"></div>
+              <p class="muted">Nom, signature et date</p>
+            </div>
+            <div class="signature-box">
+              <p><strong>Le Prestataire</strong></p>
+              <div class="signature-line"></div>
+              <p class="muted">Nom, signature et date</p>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 16px;">
+            <div class="signature-box">
+              <p><strong>Signature électronique (si applicable)</strong></p>
+              <div class="signature-line"></div>
+              <p class="muted">Nom + horodatage</p>
+            </div>
+            <div class="signature-box">
+              <p><strong>Date d’acceptation</strong></p>
+              <div class="signature-line"></div>
+              <p class="muted">JJ/MM/AAAA</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">LuxeDrive · Contrat Prestataire · Version <%= @contract.contract_version %></div>
+    </div>
+  </body>
+</html>
