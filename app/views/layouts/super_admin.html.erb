@@ -39,6 +39,9 @@
             <li class="nav-item">
               <%= link_to "📝 Contrat prestataire", edit_super_admin_contract_setting_path, class: "nav-link" %>
             </li>
+            <li class="nav-item">
+              <%= button_to "⚙️ Migrations", super_admin_run_migrations_path, method: :post, class: "nav-link btn btn-link p-0", form_class: "d-inline" %>
+            </li>
           </ul>
           
           <ul class="navbar-nav">

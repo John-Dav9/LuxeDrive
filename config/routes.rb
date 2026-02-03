@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         post :send_contract
       end
     end
+    post "migrate", to: "migrations#create", as: :run_migrations
   end
 
   # Owner
