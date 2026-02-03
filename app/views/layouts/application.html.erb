@@ -35,9 +35,11 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+      <% end %>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto">
+      <div class="<%= user_signed_in? ? "collapse navbar-collapse" : "" %>" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto">
+          <% if user_signed_in? %>
             <!-- Menu spécifique selon le rôle -->
             <% if current_user.super_admin? %>
               <li class="nav-item">
@@ -70,7 +72,11 @@
                 <%= link_to "📊 Mes Réservations", owner_bookings_path, class: "nav-link" %>
               </li>
             <% end %>
+          <% end %>
+        </ul>
 
+        <% if user_signed_in? %>
+          <ul class="navbar-nav">
             <li class="nav-item dropdown">
               <% if current_user.super_admin? %>
                 <%= image_tag "T02NE0241-U07Q4PW5W2K-b9cf4c0c8442-512.jpg", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false, alt: "Super admin" %>
@@ -103,13 +109,13 @@
               <% end %>
             </li>
           </ul>
-        </div>
-      <% else %>
-        <div class="ms-auto d-flex align-items-center gap-2">
-          <%= link_to "Se connecter", new_user_session_path, class: "btn btn-outline-primary btn-sm" %>
-          <%= link_to "Inscription", new_user_registration_path, class: "btn btn-primary btn-sm text-white" %>
-        </div>
-      <% end %>
+        <% else %>
+          <div class="ms-auto d-flex align-items-center gap-2">
+            <%= link_to "Se connecter", new_user_session_path, class: "btn btn-outline-primary btn-sm" %>
+            <%= link_to "Inscription", new_user_registration_path, class: "btn btn-primary btn-sm text-white" %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 
